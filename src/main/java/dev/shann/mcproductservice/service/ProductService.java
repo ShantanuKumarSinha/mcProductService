@@ -18,6 +18,8 @@ public class ProductService {
 
     private ProductRepository productRepository;
 
+    private UserServiceClient userServiceClient;
+
     private static final String INVALID_USER = "Invalid User";
 
 
@@ -34,14 +36,14 @@ public class ProductService {
     }
 
     public Product getProduct(Long productId, String email, String password){
-        var verifiedUser = userAuthentication(email, password);
+        var verifiedUser = userServiceClient.userAuthentication(email, password);
         if(!verifiedUser)
             throw  new UnAuthorizedAccessException( INVALID_USER);
         return productRepository.findById(productId).orElseThrow(ProductNotFoundException::new);
     }
 
     public Product createProduct(Product product, String email, String password){
-        var verifiedUser = userAuthentication(email, password);
+        var verifiedUser = userServiceClient.userAuthentication(email, password);
         if(!verifiedUser)
             throw  new UnAuthorizedAccessException(INVALID_USER);
         product = productRepository.save(product);
