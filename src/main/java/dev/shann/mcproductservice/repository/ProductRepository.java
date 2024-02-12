@@ -13,5 +13,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Product getById(Long productId);
 
-    List<Product> findAll(String samsung, Pageable sortedByNameFirstPage);
+    List<Product> findAllByProductName(String productName, Pageable sortedByNameFirstPage);
 }

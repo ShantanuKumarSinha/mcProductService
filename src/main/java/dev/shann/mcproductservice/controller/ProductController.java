@@ -18,7 +18,7 @@ import java.util.List;
  @RequestMapping("/product")
 public class ProductController {
 
-    private ProductService productService;
+   private ProductService productService;
 
     public ProductController(ProductService productService){
         this.productService = productService;
@@ -26,8 +26,9 @@ public class ProductController {
 
 
     @GetMapping("")
-    public ResponseEntity<List<Product>> getAllProducts(@RequestBody GetProductDetailsRequestDto requestDto, @Q){
-        return new ResponseEntity<>(this.productService.getAllProducts(requestDto.email(), requestDto.password()), HttpStatus.OK);
+    public ResponseEntity<List<Product>> getAllProducts(@RequestParam("productName") String productName,  @RequestBody GetProductDetailsRequestDto requestDto){
+        return new ResponseEntity<>(this.productService.
+                getAllProducts(productName, requestDto.email(), requestDto.password()), HttpStatus.OK);
     }
 
     @GetMapping
