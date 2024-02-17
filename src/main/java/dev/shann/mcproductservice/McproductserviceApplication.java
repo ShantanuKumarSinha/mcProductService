@@ -1,8 +1,10 @@
 package dev.shann.mcproductservice;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
@@ -22,12 +24,12 @@ public class McproductserviceApplication {
 	@Bean
 	@LoadBalanced
 	public RestTemplate getRestTemplate(){
-		return new RestTemplate();
+		return new RestTemplateBuilder().rootUri(url).build();
 	}
 	@Bean
 	@LoadBalanced
 	public WebClient getWebClient(){
-		return WebClient.builder().baseUrl(url).build();
+		return WebClient.builder().baseUrl(urlAlt).build();
 	}
 
 	public static void main(String[] args) {
