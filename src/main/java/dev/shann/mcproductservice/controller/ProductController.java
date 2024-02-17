@@ -33,9 +33,9 @@ public class ProductController {
 
     @GetMapping
      ("/{productId}")
-    public Product getProductDetails(@PathVariable("productId") Long productId,
+    public ResponseEntity<Product> getProductDetails(@PathVariable("productId") Long productId,
                                      @RequestBody GetProductDetailsRequestDto requestDto){
-        return this.productService.getProduct(productId, requestDto.email(), requestDto.password());
+        return ResponseEntity.ok(this.productService.getProduct(productId, requestDto.email(), requestDto.password()));
     }
 
     @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
