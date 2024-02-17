@@ -36,7 +36,7 @@ public class ProductService {
         return productRepository.findAllByProductName(productName, sortedByNameFirstPage);
     }
 
-    public Product getProduct(Long productId, String email, String password){
+    public Product getProduct(Long productId, String email, String password) throws IOException {
         var verifiedUser = userServiceClient.userAuthentication(email, password);
         if(!verifiedUser)
             throw  new UnAuthorizedAccessException( INVALID_USER);
