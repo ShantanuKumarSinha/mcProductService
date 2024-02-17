@@ -23,11 +23,12 @@ public class ProductService {
     private static final String INVALID_USER = "Invalid User";
 
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, UserServiceClient userServiceClient) {
         this.productRepository = productRepository;
+        this.userServiceClient = userServiceClient;
     }
 
-    public List<Product> getAllProducts(String productName, String email, String password){
+    public List<Product> getAllProducts(String productName, String email, String password) {
         var verifiedUser = userServiceClient.userAuthentication(email, password);
         if(!verifiedUser)
             throw  new UnAuthorizedAccessException(INVALID_USER);

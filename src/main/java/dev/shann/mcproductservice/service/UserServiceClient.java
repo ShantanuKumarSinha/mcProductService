@@ -1,7 +1,15 @@
 package dev.shann.mcproductservice.service;
 
 import dev.shann.mcproductservice.dto.UserAuthenticationDTO;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientException;
 import reactor.core.publisher.Mono;
 
 import java.io.DataOutputStream;
@@ -9,20 +17,33 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+@Component
+@Slf4j
 public class UserServiceClient {
 
+    @Autowired
+    RestTemplate restTemplate;
+
+    @Autowired
+    WebClient webClient;
+
+
     public boolean  userAuthentication(String email, String password) {
-        var url = "http://localhost:8080/users/authenticate";
         UserAuthenticationDTO userAuthenticationDTO  = new UserAuthenticationDTO(email, password);
-       // var restTemplate = new RestTemplate();
-        //var responseEntity = restTemplate.postForEntity(url,userAuthenticationDTO, Boolean.class);
-        //return Boolean.TRUE.equals(responseEntity.getBody());
-        var result = WebClient.builder()
-                .baseUrl(url)
-                .build().post()
-                .body(Mono.just(userAuthenticationDTO), UserAuthenticationDTO.class)
-                .retrieve().bodyToMono(Boolean.class).block();
-        return  result;
+//        var restTemplate = getRestTemplate();
+//        var responseEntity = restTemplate.postForEntity(url,userAuthenticationDTO, Boolean.class);
+//        return Boolean.TRUE.equals(responseEntity.getBody());
+        try{
+            return Boolean.TRUE.equals(webClient
+                    .post()
+                    .uri("/authenticate")
+                    .body(Mono.just(userAuthenticationDTO), UserAuthenticationDTO.class)
+                    .retrieve().bodyToMono(Boolean.class).block());
+        } catch(WebClientException webClientException){
+            log.error("Exception : {}",webClientException.getMessage());
+        }
+
+        return  false;
     }
     public boolean userAuthenticationViaHttpConnection(String email, String password) throws IOException {
         var url = new URL("http://localhost:8080/users/authenticate");
