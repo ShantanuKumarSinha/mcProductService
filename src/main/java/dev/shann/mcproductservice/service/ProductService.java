@@ -20,12 +20,15 @@ public class ProductService {
 
     private UserServiceClient userServiceClient;
 
+    private EmailClient emailClient;
+
     private static final String INVALID_USER = "Invalid User";
 
 
-    public ProductService(ProductRepository productRepository, UserServiceClient userServiceClient) {
+    public ProductService(ProductRepository productRepository, UserServiceClient userServiceClient, EmailClient emailClient) {
         this.productRepository = productRepository;
         this.userServiceClient = userServiceClient;
+        this.emailClient = emailClient;
     }
 
     public List<Product> getAllProducts(String productName, String email, String password) {
@@ -36,8 +39,8 @@ public class ProductService {
         return productRepository.findAllByProductName(productName, sortedByNameFirstPage);
     }
 
-    public Product getProduct(Long productId, String email, String password) throws IOException {
-        var verifiedUser = userServiceClient.userAuthentication(email, password);
+    public Product getProduct(Long productId, String email, String password) {
+        var verifiedUser = userServiceClient.userAuthenticationViaHttpConnection(email, password);
         if(!verifiedUser)
             throw  new UnAuthorizedAccessException( INVALID_USER);
         return productRepository.findById(productId).orElseThrow(ProductNotFoundException::new);
@@ -47,8 +50,13 @@ public class ProductService {
         var verifiedUser = userServiceClient.userAuthentication(email, password);
         if(!verifiedUser)
             throw  new UnAuthorizedAccessException(INVALID_USER);
-        product = productRepository.save(product);
-        return product;
+         var createdProduct = productRepository.save(product);
+        emailClient.sendSimpleMail(MailDTO.builder().recipient(email).subject("Product Created")
+                .msgBody(String.
+                        join("Product Created with Product Id : ",createdProduct
+                                .getProductId().toString()))
+                .build());
+        return createdProduct;
     }
 
 }

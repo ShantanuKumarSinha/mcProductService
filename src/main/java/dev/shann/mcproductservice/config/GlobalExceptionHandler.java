@@ -6,19 +6,22 @@ import dev.shann.mcproductservice.utility.UnAuthorizedAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @RestControllerAdvice
-public class GlobalException extends ResponseEntityExceptionHandler {
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(value =UnAuthorizedAccessException.class)
+    @ExceptionHandler({UnAuthorizedAccessException.class})
+    @ResponseStatus(value=HttpStatus.UNAUTHORIZED)
     public ResponseEntity<Object> handleUnAuthorizedAccessException(
             UnAuthorizedAccessException unAuthorizedAccessException, WebRequest request) {
         return new ResponseEntity<>(
-                unAuthorizedAccessException.getMessage(), new HttpHeaders(), HttpStatus.UNAUTHORIZED);
+                unAuthorizedAccessException.getMessage(), new HttpHeaders(), HttpStatus.UNAUTHORIZED.value());
     }
 
     @ExceptionHandler(value = ProductNotFoundException.class)
