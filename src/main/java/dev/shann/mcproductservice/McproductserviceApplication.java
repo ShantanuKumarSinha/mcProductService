@@ -30,6 +30,12 @@ public class McproductserviceApplication {
 		return WebClient.builder().baseUrl(url).build();
 	}
 
+	@Bean
+	@LoadBalanced
+	public EmailClient getEmailClient(){
+		return new EmailService();
+	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(McproductserviceApplication.class, args);
 	}
