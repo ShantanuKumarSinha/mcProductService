@@ -12,10 +12,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientException;
 import reactor.core.publisher.Mono;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.*;
+import java.net.*;
 
 @Component
 @Slf4j
@@ -37,8 +35,7 @@ public class UserServiceClient {
 
     public boolean  userAuthentication(String email, String password) {
         UserAuthenticationDTO userAuthenticationDTO  = new UserAuthenticationDTO(email, password);
-//        var restTemplate = getRestTemplate();
-//        var responseEntity = restTemplate.postForEntity(url,userAuthenticationDTO, Boolean.class);
+//        var responseEntity = restTemplate.postForEntity(AUTHENTICATE,userAuthenticationDTO, Boolean.class);
 //        return Boolean.TRUE.equals(responseEntity.getBody());
         try{
             return Boolean.TRUE.equals(webClient
