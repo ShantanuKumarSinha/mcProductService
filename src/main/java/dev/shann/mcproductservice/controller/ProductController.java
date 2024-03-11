@@ -26,7 +26,7 @@ public class ProductController {
 
 
     @GetMapping("")
-    public ResponseEntity<List<Product>> getAllProducts(@RequestParam("productName") String productName,  @RequestBody GetProductDetailsRequestDto requestDto){
+    public ResponseEntity<List<Product>> getAllProducts(@RequestParam(value = "productName", required = false) String productName,  @RequestBody GetProductDetailsRequestDto requestDto){
         return new ResponseEntity<>(this.productService.
                 getAllProducts(productName, requestDto.email(), requestDto.password()), HttpStatus.OK);
     }
