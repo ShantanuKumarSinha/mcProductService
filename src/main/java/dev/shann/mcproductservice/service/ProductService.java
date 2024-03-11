@@ -1,5 +1,7 @@
 package dev.shann.mcproductservice.service;
 
+import dev.shann.mcproductservice.mail.model.MailDTO;
+import dev.shann.mcproductservice.mail.producer.EmailClient;
 import dev.shann.mcproductservice.model.Product;
 import dev.shann.mcproductservice.repository.ProductRepository;
 import dev.shann.mcproductservice.utility.ProductNotFoundException;

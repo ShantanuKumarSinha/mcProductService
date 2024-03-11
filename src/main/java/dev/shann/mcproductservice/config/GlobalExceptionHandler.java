@@ -13,18 +13,19 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.net.ssl.SSLPeerUnverifiedException;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler({UnAuthorizedAccessException.class})
-    @ResponseStatus(value=HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(value ={UnAuthorizedAccessException.class})
     public ResponseEntity<Object> handleUnAuthorizedAccessException(
             UnAuthorizedAccessException unAuthorizedAccessException, WebRequest request) {
         return new ResponseEntity<>(
-                unAuthorizedAccessException.getMessage(), new HttpHeaders(), HttpStatus.UNAUTHORIZED.value());
+                unAuthorizedAccessException.getMessage(), new HttpHeaders(), HttpStatus.UNAUTHORIZED);
     }
 
-    @ExceptionHandler(value = ProductNotFoundException.class)
+    @ExceptionHandler(value = {ProductNotFoundException.class})
     public ResponseEntity<Object> handleProductNotFoundException(
             ProductNotFoundException productNotFoundException, WebRequest request) {
         return new ResponseEntity<>(

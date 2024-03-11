@@ -34,3 +34,11 @@ p
 @src/main/java/dev/shann/mcproductservice/mail/model/MailDTO.java,7/2/72095d05c70599f3b899b596f7a5e09701179672
 w
 Gsrc/main/java/dev/shann/mcproductservice/mail/producer/EmailClient.java,4/5/459dd53a73fae6c440945355bd21813dd1af8ca8
+?
+dependency.tree,1/a/1ae8042949ef25985e436e995b06ff784edfe403
+z
+Jsrc/main/java/dev/shann/mcproductservice/repository/ProductRepository.java,5/9/59bdd5eef77e8880fdb0470f1aac18cec9583ff0
+~
+Nsrc/main/java/dev/shann/mcproductservice/utility/ProductNotFoundException.java,2/4/2463c48612a8f69ac08df3147f5c1c152e4e650a
+}
+Msrc/main/java/dev/shann/mcproductservice/dto/GetProductDetailsRequestDto.java,3/7/37a3df4747a840feeb2fb6f1d7c8001915a58efe
