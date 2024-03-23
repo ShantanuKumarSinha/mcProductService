@@ -166,4 +166,13 @@ dev.shann:mcproductservice:jar:0.0.1-SNAPSHOT
 |     \- io.micrometer:micrometer-core:jar:1.11.4:compile
 |        +- org.hdrhistogram:HdrHistogram:jar:2.1.12:runtime
 |        \- org.latencyutils:LatencyUtils:jar:2.0.3:runtime
-\- jakarta.validation:jakarta.validation-api:jar:3.0.2:compile
++- jakarta.validation:jakarta.validation-api:jar:3.0.2:compile
+\- org.springframework.cloud:spring-cloud-starter-feign:jar:1.4.7.RELEASE:compile
+   \- org.springframework.cloud:spring-cloud-starter-openfeign:jar:4.0.4:compile
+      +- org.springframework.cloud:spring-cloud-openfeign-core:jar:4.0.4:compile
+      |  +- io.github.openfeign.form:feign-form-spring:jar:3.8.0:compile
+      |  |  \- io.github.openfeign.form:feign-form:jar:3.8.0:compile
+      |  \- commons-fileupload:commons-fileupload:jar:1.5:compile
+      |     \- commons-io:commons-io:jar:2.11.0:compile
+      +- io.github.openfeign:feign-core:jar:12.4:compile
+      \- io.github.openfeign:feign-slf4j:jar:12.4:compile
