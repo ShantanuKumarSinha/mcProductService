@@ -6,6 +6,8 @@ import dev.shann.mcproductservice.model.Product;
 import dev.shann.mcproductservice.repository.ProductRepository;
 import dev.shann.mcproductservice.utility.ProductNotFoundException;
 import dev.shann.mcproductservice.utility.UnAuthorizedAccessException;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -24,6 +26,8 @@ public class ProductService {
 
     private EmailClient emailClient;
 
+    private ModelMapper modelMapper;
+
     private static final String INVALID_USER = "Invalid User";
 
 
@@ -31,21 +35,27 @@ public class ProductService {
         this.productRepository = productRepository;
         this.userService = userService;
         this.emailClient = emailClient;
+        this.modelMapper = new ModelMapper();
     }
 
     public List<Product> getAllProducts(String productName, String email, String password) {
         var verifiedUser = userService.userAuthenticationViaFeignClient(email, password);
         if(!verifiedUser)
             throw  new UnAuthorizedAccessException(INVALID_USER);
+        if(productName == null)
+            return modelMapper.map(productRepository.findAll(),new TypeToken<List<Product>>(){}.getType());
+
         Pageable sortedByNameFirstPage = PageRequest.of(0,1, Sort.by("productName").descending());
-        return productRepository.findAllByProductName(productName, sortedByNameFirstPage);
+        var productEntityList = productRepository.findAllByProductName(productName, sortedByNameFirstPage);
+        return modelMapper.map(productEntityList, new TypeToken<List<Product>>(){}.getType());
     }
 
     public Product getProduct(Long productId, String email, String password) {
         var verifiedUser = userService.userAuthenticationViaHttpConnection(email, password);
         if(!verifiedUser)
             throw  new UnAuthorizedAccessException( INVALID_USER);
-        return productRepository.findById(productId).orElseThrow(ProductNotFoundException::new);
+        return modelMapper.map(productRepository.findById(productId)
+                .orElseThrow(ProductNotFoundException::new),Product.class);
     }
 
     public Product createProduct(Product product, String email, String password){
@@ -59,7 +69,7 @@ public class ProductService {
                 .msgBody(String.format("Product Details are listed below %s: ",createdProduct
                         .toString()))
                 .build());
-        return createdProduct;
+        return modelMapper.map(createdProduct, Product.class);
     }
 
 }
