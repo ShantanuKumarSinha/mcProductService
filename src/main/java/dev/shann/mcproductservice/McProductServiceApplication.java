@@ -16,7 +16,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients
-public class McproductserviceApplication {
+public class McProductServiceApplication {
 
 	@Value("${user.service.client.user.name}")
 	private String url;
@@ -40,7 +40,7 @@ public class McproductserviceApplication {
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(McproductserviceApplication.class, args);
+		SpringApplication.run(McProductServiceApplication.class, args);
 	}
 
 }
