@@ -24,18 +24,18 @@ public class McProductServiceApplication {
 	private String urlAlt;
 	@Bean
 	@LoadBalanced
-	public RestTemplate getRestTemplate(){
+	public RestTemplate restTemplate(){
 		return new RestTemplateBuilder().rootUri(url).build();
 	}
 	@Bean
 	@LoadBalanced
-	public WebClient getWebClient(){
+	public WebClient webClient(){
 		return WebClient.builder().baseUrl(urlAlt).build();
 	}
 
 	@Bean
 	@LoadBalanced
-	public EmailClient getEmailClient(){
+	public EmailClient emailClient(){
 		return new EmailService();
 	}
 
