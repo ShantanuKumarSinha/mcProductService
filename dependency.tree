@@ -1,4 +1,4 @@
-dev.shann:mcproductservice:jar:0.0.1-SNAPSHOT
+dev.shann:mcProductService:jar:0.0.1-SNAPSHOT
 +- org.springframework.boot:spring-boot-starter-data-jpa:jar:3.1.4:compile
 |  +- org.springframework.boot:spring-boot-starter-aop:jar:3.1.4:compile
 |  |  +- org.springframework:spring-aop:jar:6.0.12:compile
@@ -55,6 +55,7 @@ dev.shann:mcproductservice:jar:0.0.1-SNAPSHOT
 |  \- org.springframework.boot:spring-boot-autoconfigure:jar:3.1.4:compile
 +- com.mysql:mysql-connector-j:jar:8.0.33:compile
 +- org.projectlombok:lombok:jar:1.18.30:compile
++- org.modelmapper:modelmapper:jar:3.2.0:compile
 +- org.springframework.boot:spring-boot-starter-test:jar:3.1.4:test
 |  +- org.springframework.boot:spring-boot-test:jar:3.1.4:test
 |  +- org.springframework.boot:spring-boot-test-autoconfigure:jar:3.1.4:test

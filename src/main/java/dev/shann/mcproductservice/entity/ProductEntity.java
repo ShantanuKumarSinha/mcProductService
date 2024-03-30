@@ -12,6 +12,7 @@ public class ProductEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long productId;
     String productName;
+    String brand;
     Integer quantity;
     Integer price;
 }

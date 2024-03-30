@@ -8,6 +8,7 @@ import lombok.Data;
 public class Product {
     Long productId;
     String productName;
+    String brand;
     Integer quantity;
     Integer price;
 }

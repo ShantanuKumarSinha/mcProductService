@@ -38,15 +38,20 @@ public class ProductService {
         this.modelMapper = new ModelMapper();
     }
 
-    public List<Product> getAllProducts(String productName, String email, String password) {
+    public List<Product> getAllProducts(String  brand,Integer pageNumber, Integer
+            pageSize, String email, String password) {
         var verifiedUser = userService.userAuthenticationViaFeignClient(email, password);
         if(!verifiedUser)
             throw  new UnAuthorizedAccessException(INVALID_USER);
-        if(productName == null)
-            return modelMapper.map(productRepository.findAll(),new TypeToken<List<Product>>(){}.getType());
-
-        Pageable sortedByNameFirstPage = PageRequest.of(0,1, Sort.by("productName").descending());
-        var productEntityList = productRepository.findAllByProductName(productName, sortedByNameFirstPage);
+        if(brand == null)
+            brand="";
+        if(pageNumber == null)
+            pageNumber =0;
+        if(pageSize == null)
+            pageSize =3;
+        Pageable sortedByNamePage = PageRequest.of(pageNumber,pageSize, Sort.by("price").descending()
+                .and(Sort.by("brand")));
+        var productEntityList = productRepository.findByBrandContaining(brand, sortedByNamePage);
         return modelMapper.map(productEntityList, new TypeToken<List<Product>>(){}.getType());
     }
 

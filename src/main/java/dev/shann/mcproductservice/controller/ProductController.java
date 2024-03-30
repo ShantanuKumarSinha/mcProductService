@@ -5,13 +5,11 @@ import dev.shann.mcproductservice.dto.GetProductDetailsRequestDto;
 import dev.shann.mcproductservice.model.Product;
 import dev.shann.mcproductservice.service.ProductService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.AbstractDocument;
 import java.util.List;
 
 @RestController
@@ -26,9 +24,12 @@ public class ProductController {
 
 
     @GetMapping("")
-    public ResponseEntity<List<Product>> getAllProducts(@RequestParam(value = "productName", required = false) String productName,  @RequestBody GetProductDetailsRequestDto requestDto){
+    public ResponseEntity<List<Product>> getAllProducts(@RequestParam(required = false) String brand,
+                                                        @RequestParam(required = false) Integer pageNumber,
+                                                        @RequestParam(required = false) Integer pageSize,
+                                                        @RequestBody GetProductDetailsRequestDto requestDto){
         return new ResponseEntity<>(this.productService.
-                getAllProducts(productName, requestDto.email(), requestDto.password()), HttpStatus.OK);
+                getAllProducts(brand, pageNumber, pageSize,requestDto.email(), requestDto.password()), HttpStatus.OK);
     }
 
     @GetMapping
