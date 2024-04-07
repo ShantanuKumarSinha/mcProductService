@@ -56,5 +56,5 @@ Isrc/main/java/dev/shann/mcproductservice/McProductServiceApplication.java,0/b/
 Nsrc/test/java/dev/shann/mcproductservice/McProductServiceApplicationTests.java,f/6/f66bed418bdd681b5591d430ba45822cd2750fc6
 r
 Bsrc/main/java/dev/shann/mcproductservice/entity/ProductEntity.java,1/d/1d0b382ae3bd54c7b1b5481de2e832b1ed341620
-C
-product-service.log,7/5/75ce74b346a9b0e8f24631ff0f578cf83e27943a
+G
+log/product-service.log,c/7/c72a5eaf3f203b1178044138924a9afd344b17d5

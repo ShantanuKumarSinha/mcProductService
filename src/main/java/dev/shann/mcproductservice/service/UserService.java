@@ -15,6 +15,7 @@ import reactor.core.publisher.Mono;
 
 import java.io.*;
 import java.net.*;
+import java.nio.charset.StandardCharsets;
 
 @Component
 @Slf4j
@@ -69,31 +70,22 @@ public class UserService {
             connection.setDoOutput(true);
             connection.setDoInput(true);
             OutputStream os = connection.getOutputStream();
-                byte[] input = getParam(email, password).getBytes("utf-8");
+                byte[] input = getParam(email, password).getBytes(StandardCharsets.UTF_8);
                 os.write(input, 0, input.length);
                 os.flush();
                 os.close();
 
             BufferedReader br = new BufferedReader(
-                    new InputStreamReader(connection.getInputStream(), "utf-8"));
+                    new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
             var response = new StringBuilder();
             String responseLine = null;
             while ((responseLine = br.readLine()) != null) {
                 response.append(responseLine.trim());
             }
             return response.toString().equals("true");
-        } catch (ProtocolException e) {
-            throw new RuntimeException(e);
-        } catch(MalformedURLException malformedURLException){
-           throw  new RuntimeException(malformedURLException);
-        } catch(IllegalArgumentException illegalArgumentException){
-           throw new RuntimeException(illegalArgumentException);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
+        } catch (IllegalArgumentException | IOException | URISyntaxException e) {
+            log.error(String.valueOf(e));
+            return false;
         }
     }
 
