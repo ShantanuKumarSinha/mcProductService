@@ -1,7 +1,7 @@
 package dev.shann.mcproductservice;
 
 import dev.shann.mcproductservice.mail.producer.EmailClient;
-import dev.shann.mcproductservice.mail.producer.EmailService;
+import dev.shann.mcproductservice.mail.producer.impl.EmailService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
