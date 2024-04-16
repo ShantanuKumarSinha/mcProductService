@@ -1,8 +1,11 @@
-package dev.shann.mcproductservice.mail.producer;
+package dev.shann.mcproductservice.mail.producer.impl;
 
 import dev.shann.mcproductservice.mail.model.MailDTO;
+import dev.shann.mcproductservice.mail.producer.EmailClient;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
@@ -10,8 +13,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
 import java.io.File;
-
-public class EmailService implements EmailClient{
+@Slf4j
+public class EmailService implements EmailClient {
 
     private  JavaMailSender javaMailSender;
 
@@ -29,12 +32,15 @@ public class EmailService implements EmailClient{
             simpleMailMessage.setTo(mailDTO.getRecipient());
             simpleMailMessage.setText(mailDTO.getMsgBody());
             simpleMailMessage.setSubject(mailDTO.getSubject());
+            log.info("Sending Mail : {}",simpleMailMessage);
 
             // Sending the mail
             javaMailSender.send(simpleMailMessage);
+            log.info("Mail Sent Successfully...");
             return "Mail Sent Successfully...";
         }
         catch (Exception e) {
+            log.error("Error while Sending Mail  : {}",e);
             return "Error while Sending Mail";
         }
     }

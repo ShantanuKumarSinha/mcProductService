@@ -1,5 +1,6 @@
 package dev.shann.mcproductservice.service;
 
+import dev.shann.mcproductservice.entity.ProductEntity;
 import dev.shann.mcproductservice.mail.model.MailDTO;
 import dev.shann.mcproductservice.mail.producer.EmailClient;
 import dev.shann.mcproductservice.model.Product;
@@ -67,7 +68,7 @@ public class ProductService {
         var verifiedUser = userService.userAuthentication(email, password);
         if(!verifiedUser)
             throw  new UnAuthorizedAccessException(INVALID_USER);
-         var createdProduct = productRepository.save(product);
+         var createdProduct = productRepository.save(modelMapper.map(product, ProductEntity.class));
         emailClient.sendSimpleMail(MailDTO.builder().recipient(email)
                 .subject(String.format("Product Created with Product Id %s: ",createdProduct
                         .getProductId().toString()))
