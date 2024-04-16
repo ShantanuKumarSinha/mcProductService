@@ -58,3 +58,9 @@ r
 Bsrc/main/java/dev/shann/mcproductservice/entity/ProductEntity.java,1/d/1d0b382ae3bd54c7b1b5481de2e832b1ed341620
 G
 log/product-service.log,c/7/c72a5eaf3f203b1178044138924a9afd344b17d5
+s
+Csrc/test/java/dev/shann/mcproductservice/ProducTRepositoryTest.java,2/d/2df62c0bcf9c6d6003a3929089acbeb3fd21ff72
+s
+Csrc/test/java/dev/shann/mcproductservice/ProductRepositoryTest.java,3/f/3f5da1538108688fd8e517e61601bffb063de6b3
+c
+3src/test/java/resources/application-test.properties,f/9/f92e5ffaf142f410da73fcc4e69338a95d9b3d81

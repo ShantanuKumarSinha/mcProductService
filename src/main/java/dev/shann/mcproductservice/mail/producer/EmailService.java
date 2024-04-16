@@ -3,7 +3,6 @@ package dev.shann.mcproductservice.mail.producer;
 import dev.shann.mcproductservice.mail.model.MailDTO;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
@@ -13,9 +12,14 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import java.io.File;
 
 public class EmailService implements EmailClient{
-    @Autowired private JavaMailSender javaMailSender;
+
+    private  JavaMailSender javaMailSender;
 
     @Value("${spring.mail.username}") private String sender;
+
+    public EmailService(JavaMailSender javaMailSender){
+    this.javaMailSender = javaMailSender;
+    }
 
     @Override
     public String sendSimpleMail(MailDTO mailDTO) {
