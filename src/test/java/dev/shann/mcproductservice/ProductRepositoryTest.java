@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.TestPropertySource;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -39,6 +42,19 @@ class ProductRepositoryTest {
         var actualProduct = productRepository.findById(productEntity.getProductId());
         assertThat(actualProduct).isPresent();
         assertThat(actualProduct).isPresent().get()
+                .extracting(ProductEntity::getProductId,ProductEntity::getProductName,
+                        ProductEntity::getBrand, ProductEntity::getPrice,
+                        ProductEntity::getQuantity)
+                .contains(productEntity.getProductId(),productEntity.getProductName(),
+                        productEntity.getBrand(), productEntity.getPrice(),
+                        productEntity.getQuantity());
+    }
+
+    @Test
+    void shouldFindProductByBrand(){
+        var actualProductList = productRepository.findByBrandContaining(productEntity.getBrand(), PageRequest.of(0,2, Sort.by("price").descending()
+                .and(Sort.by("brand"))));
+        assertThat(actualProductList.getFirst()).isNotNull()
                 .extracting(ProductEntity::getProductId,ProductEntity::getProductName,
                         ProductEntity::getBrand, ProductEntity::getPrice,
                         ProductEntity::getQuantity)

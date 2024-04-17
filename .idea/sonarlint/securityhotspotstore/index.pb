@@ -26,8 +26,6 @@ Gsrc/main/java/dev/shann/mcproductservice/dto/UserAuthenticationDTO.java,2/f/2f
 Psrc/main/java/dev/shann/mcproductservice/dto/CreateProductDetailsRequestDto.java,7/e/7e91d9673f659833f078315972b76644f0dcc24b
 k
 ;src/main/java/dev/shann/mcproductservice/model/Product.java,d/a/da4ed7cda4c0426135b7d48eb00c75dbe59a20f0
-x
-Hsrc/main/java/dev/shann/mcproductservice/mail/producer/EmailService.java,f/3/f35e4d009d2e68514d99c6128685816bbb42b092
 p
 @src/main/java/dev/shann/mcproductservice/mail/model/MailDTO.java,7/2/72095d05c70599f3b899b596f7a5e09701179672
 w
