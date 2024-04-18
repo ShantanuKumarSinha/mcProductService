@@ -54,7 +54,7 @@ class ProductRepositoryTest {
     void shouldFindProductByBrand(){
         var actualProductList = productRepository.findByBrandContaining(productEntity.getBrand(), PageRequest.of(0,2, Sort.by("price").descending()
                 .and(Sort.by("brand"))));
-        assertThat(actualProductList.getFirst()).isNotNull()
+        assertThat(actualProductList.get(0)).isNotNull()
                 .extracting(ProductEntity::getProductId,ProductEntity::getProductName,
                         ProductEntity::getBrand, ProductEntity::getPrice,
                         ProductEntity::getQuantity)

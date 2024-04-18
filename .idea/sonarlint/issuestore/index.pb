@@ -62,3 +62,5 @@ s
 Csrc/test/java/dev/shann/mcproductservice/ProductRepositoryTest.java,3/f/3f5da1538108688fd8e517e61601bffb063de6b3
 c
 3src/test/java/resources/application-test.properties,f/9/f92e5ffaf142f410da73fcc4e69338a95d9b3d81
+K
+.github/workflows/maven.yml,c/7/c709f6995f23dae0da365bff70068f8288fa89e0

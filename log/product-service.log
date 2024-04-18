@@ -1,51 +1,17 @@
-2024-04-17T21:38:17.948+05:30  INFO 45564 --- [main] d.s.m.ProductRepositoryTest              : Starting ProductRepositoryTest using Java 21.0.2 with PID 45564 (started by shantanukumar in /Users/shantanukumar/IdeaProjects/mcProductService)
-2024-04-17T21:38:17.951+05:30  INFO 45564 --- [main] d.s.m.ProductRepositoryTest              : No active profile set, falling back to 1 default profile: "default"
-2024-04-17T21:38:18.154+05:30  INFO 45564 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-04-17T21:38:18.242+05:30  INFO 45564 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 82 ms. Found 1 JPA repository interfaces.
-2024-04-17T21:38:18.275+05:30  INFO 45564 --- [main] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
-2024-04-17T21:38:18.371+05:30  INFO 45564 --- [main] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:901c632b-f1f3-494f-b6e8-d66bb1bce4eb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
-2024-04-17T21:38:18.516+05:30  INFO 45564 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-04-17T21:38:18.552+05:30  INFO 45564 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.9.Final
-2024-04-17T21:38:18.553+05:30  INFO 45564 --- [main] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
-2024-04-17T21:38:18.635+05:30  INFO 45564 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
-2024-04-17T21:38:18.710+05:30  INFO 45564 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2024-04-17T21:38:18.811+05:30  INFO 45564 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
-2024-04-17T21:38:19.022+05:30  INFO 45564 --- [main] o.h.m.i.EntityInstantiatorPojoStandard   : HHH000182: No default (no-argument) constructor for class: dev.shann.mcproductservice.entity.ProductEntity (class must be instantiated by Interceptor)
-2024-04-17T21:38:19.084+05:30  INFO 45564 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2024-04-17T21:38:19.109+05:30  INFO 45564 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-04-17T21:38:19.539+05:30  INFO 45564 --- [main] d.s.m.ProductRepositoryTest              : Started ProductRepositoryTest in 1.799 seconds (process running for 2.341)
-2024-04-17T21:38:19.978+05:30  INFO 45564 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2024-04-17T22:32:46.009+05:30  INFO 4734 --- [main] d.s.m.ProductRepositoryTest              : Starting ProductRepositoryTest using Java 21.0.2 with PID 4734 (started by shantanukumar in /Users/shantanukumar/IdeaProjects/mcProductService)
-2024-04-17T22:32:46.010+05:30  INFO 4734 --- [main] d.s.m.ProductRepositoryTest              : No active profile set, falling back to 1 default profile: "default"
-2024-04-17T22:32:46.268+05:30  INFO 4734 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-04-17T22:32:46.380+05:30  INFO 4734 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 106 ms. Found 1 JPA repository interfaces.
-2024-04-17T22:32:46.428+05:30  INFO 4734 --- [main] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
-2024-04-17T22:32:46.562+05:30  INFO 4734 --- [main] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:f3555228-1e90-4de9-b4a2-35f9d57d437c;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
-2024-04-17T22:32:46.856+05:30  INFO 4734 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-04-17T22:32:46.911+05:30  INFO 4734 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.9.Final
-2024-04-17T22:32:46.913+05:30  INFO 4734 --- [main] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
-2024-04-17T22:32:47.017+05:30  INFO 4734 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
-2024-04-17T22:32:47.140+05:30  INFO 4734 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2024-04-17T22:32:47.319+05:30  INFO 4734 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
-2024-04-17T22:32:47.657+05:30  INFO 4734 --- [main] o.h.m.i.EntityInstantiatorPojoStandard   : HHH000182: No default (no-argument) constructor for class: dev.shann.mcproductservice.entity.ProductEntity (class must be instantiated by Interceptor)
-2024-04-17T22:32:47.780+05:30  INFO 4734 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2024-04-17T22:32:47.830+05:30  INFO 4734 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-04-17T22:32:48.403+05:30  INFO 4734 --- [main] d.s.m.ProductRepositoryTest              : Started ProductRepositoryTest in 2.842 seconds (process running for 3.783)
-2024-04-17T22:32:49.040+05:30  INFO 4734 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2024-04-17T22:40:29.179+05:30  INFO 13229 --- [main] d.s.m.ProductRepositoryTest              : Starting ProductRepositoryTest using Java 21.0.2 with PID 13229 (started by shantanukumar in /Users/shantanukumar/IdeaProjects/mcProductService)
-2024-04-17T22:40:29.180+05:30  INFO 13229 --- [main] d.s.m.ProductRepositoryTest              : No active profile set, falling back to 1 default profile: "default"
-2024-04-17T22:40:29.450+05:30  INFO 13229 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-04-17T22:40:29.563+05:30  INFO 13229 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 105 ms. Found 1 JPA repository interfaces.
-2024-04-17T22:40:29.617+05:30  INFO 13229 --- [main] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
-2024-04-17T22:40:29.752+05:30  INFO 13229 --- [main] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:f6618741-a23a-4e63-8348-aa49fee44fcc;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
-2024-04-17T22:40:30.047+05:30  INFO 13229 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-04-17T22:40:30.098+05:30  INFO 13229 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.9.Final
-2024-04-17T22:40:30.099+05:30  INFO 13229 --- [main] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
-2024-04-17T22:40:30.209+05:30  INFO 13229 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
-2024-04-17T22:40:30.336+05:30  INFO 13229 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2024-04-17T22:40:30.521+05:30  INFO 13229 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
-2024-04-17T22:40:30.849+05:30  INFO 13229 --- [main] o.h.m.i.EntityInstantiatorPojoStandard   : HHH000182: No default (no-argument) constructor for class: dev.shann.mcproductservice.entity.ProductEntity (class must be instantiated by Interceptor)
-2024-04-17T22:40:30.964+05:30  INFO 13229 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2024-04-17T22:40:31.014+05:30  INFO 13229 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-04-17T22:40:31.594+05:30  INFO 13229 --- [main] d.s.m.ProductRepositoryTest              : Started ProductRepositoryTest in 2.715 seconds (process running for 3.646)
-2024-04-17T22:40:32.274+05:30  INFO 13229 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-04-18T22:04:14.105+05:30  INFO 69188 --- [main] d.s.m.ProductRepositoryTest              : Starting ProductRepositoryTest using Java 21.0.2 with PID 69188 (started by shantanukumar in /Users/shantanukumar/IdeaProjects/mcProductService)
+2024-04-18T22:04:14.106+05:30  INFO 69188 --- [main] d.s.m.ProductRepositoryTest              : No active profile set, falling back to 1 default profile: "default"
+2024-04-18T22:04:14.368+05:30  INFO 69188 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-04-18T22:04:14.482+05:30  INFO 69188 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 108 ms. Found 1 JPA repository interfaces.
+2024-04-18T22:04:14.529+05:30  INFO 69188 --- [main] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
+2024-04-18T22:04:14.665+05:30  INFO 69188 --- [main] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:761c25ea-2024-479c-9ffc-c7354cbcbc10;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
+2024-04-18T22:04:14.969+05:30  INFO 69188 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-04-18T22:04:15.025+05:30  INFO 69188 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.9.Final
+2024-04-18T22:04:15.027+05:30  INFO 69188 --- [main] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2024-04-18T22:04:15.144+05:30  INFO 69188 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2024-04-18T22:04:15.255+05:30  INFO 69188 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-04-18T22:04:15.439+05:30  INFO 69188 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2024-04-18T22:04:15.773+05:30  INFO 69188 --- [main] o.h.m.i.EntityInstantiatorPojoStandard   : HHH000182: No default (no-argument) constructor for class: dev.shann.mcproductservice.entity.ProductEntity (class must be instantiated by Interceptor)
+2024-04-18T22:04:15.889+05:30  INFO 69188 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-04-18T22:04:15.933+05:30  INFO 69188 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-04-18T22:04:16.480+05:30  INFO 69188 --- [main] d.s.m.ProductRepositoryTest              : Started ProductRepositoryTest in 2.711 seconds (process running for 4.143)
+2024-04-18T22:04:17.203+05:30  INFO 69188 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
