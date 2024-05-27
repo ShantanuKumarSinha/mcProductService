@@ -6,7 +6,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: ci/cd install
+name: Build
 
 on:
   push:
