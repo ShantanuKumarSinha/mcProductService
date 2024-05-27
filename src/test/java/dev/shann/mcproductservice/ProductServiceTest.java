@@ -7,6 +7,8 @@ import dev.shann.mcproductservice.model.Product;
 import dev.shann.mcproductservice.repository.ProductRepository;
 import dev.shann.mcproductservice.service.ProductService;
 import dev.shann.mcproductservice.service.UserService;
+import dev.shann.mcproductservice.utility.ProductNotFoundException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,6 +24,7 @@ import org.springframework.data.domain.Sort;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -36,9 +39,6 @@ class ProductServiceTest {
 
     @Mock
     ProductRepository productRepository;
-
-//    @Autowired
-    ModelMapper modelMapper;
 
     @Mock
     EmailClient emailClient;
@@ -103,16 +103,21 @@ class ProductServiceTest {
     }
 
     @Test
+    void shouldThrowProductNotFoundException(){
+        when(userService.userAuthenticationViaHttpConnection(anyString(), anyString()))
+                .thenReturn(true);
+        when(productRepository.findById(anyLong()))
+                .thenReturn(Optional
+                        .ofNullable(null));
+         var exception = assertThrows(ProductNotFoundException.class, ()->
+                 productService.getProduct(1L,"test@test.com","test@123"));
+         var expectedMessage = "Product not Found";
+         assertThat(exception.getMessage()).isEqualTo(expectedMessage);
+
+    }
+    // TODO
+    @Test
     void shouldFindProductByBrand(){
-//        var actualProductList = productRepository.findByBrandContaining(productEntity.getBrand(), PageRequest.of(0,2, Sort.by("price").descending()
-//                .and(Sort.by("brand"))));
-//        assertThat(actualProductList.get(0)).isNotNull()
-//                .extracting(ProductEntity::getProductId,ProductEntity::getProductName,
-//                        ProductEntity::getBrand, ProductEntity::getPrice,
-//                        ProductEntity::getQuantity)
-//                .contains(productEntity.getProductId(),productEntity.getProductName(),
-//                        productEntity.getBrand(), productEntity.getPrice(),
-//                        productEntity.getQuantity());
     }
 
     public ProductEntity getProductEntity(){
