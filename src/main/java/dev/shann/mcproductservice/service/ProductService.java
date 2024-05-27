@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 
 @Service
@@ -44,7 +45,7 @@ public class ProductService {
         var verifiedUser = userService.userAuthenticationViaFeignClient(email, password);
         if(!verifiedUser)
             throw  new UnAuthorizedAccessException(INVALID_USER);
-        if(brand == null)
+        if(Objects.isNull(brand))
             brand="";
         if(pageNumber == null)
             pageNumber =0;
@@ -68,7 +69,7 @@ public class ProductService {
         var verifiedUser = userService.userAuthentication(email, password);
         if(!verifiedUser)
             throw  new UnAuthorizedAccessException(INVALID_USER);
-         var createdProduct = productRepository.save(modelMapper.map(product, ProductEntity.class));
+        var createdProduct = productRepository.save(modelMapper.map(product, ProductEntity.class));
         emailClient.sendSimpleMail(MailDTO.builder().recipient(email)
                 .subject(String.format("Product Created with Product Id %s: ",createdProduct
                         .getProductId().toString()))
