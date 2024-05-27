@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
-    ProductEntity save(Product product);
+    ProductEntity save(ProductEntity productEntity);
 
     ProductEntity getById(Long productId);
 
