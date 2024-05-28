@@ -8,21 +8,20 @@ import dev.shann.mcproductservice.repository.ProductRepository;
 import dev.shann.mcproductservice.service.ProductService;
 import dev.shann.mcproductservice.service.UserService;
 import dev.shann.mcproductservice.utility.ProductNotFoundException;
-import org.junit.jupiter.api.Assertions;
+import dev.shann.mcproductservice.utility.UnAuthorizedAccessException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.*;
@@ -51,6 +50,14 @@ class ProductServiceTest {
 
     MailDTO mailDTO;
 
+    private static final String INVALID_USER = "Invalid User";
+
+    private static final  String EMAIL_ERROR = "Error while Sending Mail";
+
+    String email ="Test@test.com";
+
+    String password = "Test@123";
+
     @BeforeEach
     void setUp(){
         product = getProduct();
@@ -61,9 +68,16 @@ class ProductServiceTest {
     }
 
     @Test
+    void shouldThrowUnauthorizedException(){
+        when(userService.userAuthenticationViaHttpConnection(anyString(), anyString())).thenReturn(false);
+        var exception = assertThrows(UnAuthorizedAccessException.class, ()->
+                productService.getProduct(1L,"test@test.com","test@123"));
+        assertThat(exception.getMessage()).isEqualTo(INVALID_USER);
+
+    }
+
+    @Test
     void shouldCreateNewProduct(){
-        var email ="Test@test.com";
-        var password = "Test@123";
 
         when(userService.userAuthentication(email,password)).thenReturn(true);
 
@@ -111,28 +125,34 @@ class ProductServiceTest {
                         .ofNullable(null));
          var exception = assertThrows(ProductNotFoundException.class, ()->
                  productService.getProduct(1L,"test@test.com","test@123"));
-         var expectedMessage = "Product not Found";
+         var expectedMessage = "Product Not Found";
          assertThat(exception.getMessage()).isEqualTo(expectedMessage);
 
     }
-    // TODO
+
     @Test
     void shouldFindProductByBrand(){
+        when(userService.userAuthenticationViaFeignClient(anyString(), anyString())).thenReturn(true);
+        when(productRepository.findByBrandContaining(anyString(),any(Pageable.class))).thenReturn(List.of(createdProduct));
+        var actualProductList = productService.getAllProducts("Samsung",1,3,"test@test.com","test@123");
+        assertThat(actualProductList.get(0)).extracting(Product::getProductId,Product::getProductName,Product::getBrand,Product::getPrice,Product::getQuantity)
+                .contains(1L, product.getProductName(), product.getPrice(),
+                        product.getBrand(), product.getQuantity());
     }
 
-    public ProductEntity getProductEntity(){
+    private ProductEntity getProductEntity(){
         return ProductEntity.builder().productName("Test").brand("Test Brand").quantity(100).price(1000).build();
     }
 
-    public Product getProduct(){
+    private Product getProduct(){
         return Product.builder().productName("Test").brand("Test Brand").quantity(100).price(1000).build();
     }
 
-    public ProductEntity getCreatedProductEntity(){
+    private ProductEntity getCreatedProductEntity(){
         return ProductEntity.builder().productId(1L).productName("Test").brand("Test Brand").quantity(100).price(1000).build();
     }
 
-    public MailDTO buildMailDTO(ProductEntity createdProduct){
+    private MailDTO buildMailDTO(ProductEntity createdProduct){
         return  MailDTO.builder().subject(String.format("Product Created with Product Id %s: ",createdProduct
                 .getProductId().toString()))
                 .msgBody(String.format("Product Details are listed below %s: ",createdProduct
@@ -140,4 +160,5 @@ class ProductServiceTest {
                 .recipient("Test@test.com")
                 .build();
     }
+
 }
