@@ -8,11 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @DataJpaTest
+@ContextConfiguration
 @TestPropertySource(locations = "file:src/test/java/resources/application-test.properties")
+//TestPropertySource(("classpath:application-test.properties"))
+@ActiveProfiles("test")
 class ProductRepositoryTest {
 
     @Autowired
