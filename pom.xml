@@ -21,33 +21,33 @@
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../target/jacoco.exec</sonar.coverage.jacoco.xmlReportPaths>
         <sonar.language>java</sonar.language>
+        <mysql.version>8.0.33</mysql.version>
+        <modelmapper.version>3.2.0</modelmapper.version>
+        <spring-cloud-starter-netflix-eureka-client.version>4.1.0</spring-cloud-starter-netflix-eureka-client.version>
+        <spring-boot-starter-actuator.version>3.2.3</spring-boot-starter-actuator.version>
+        <jakarta.validation-api.version>3.0.2</jakarta.validation-api.version>
+        <spring-cloud-starter-feign.version>1.4.7.RELEASE</spring-cloud-starter-feign.version>
+        <wiremock.version>3.9.1</wiremock.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
-        		<dependency>
-        			<groupId>com.h2database</groupId>
-        			<artifactId>h2</artifactId>
-        			<scope>test</scope>
-        		</dependency>
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.33</version>
+            <version>${mysql.version}</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -57,23 +57,20 @@
         <dependency>
             <groupId>org.modelmapper</groupId>
             <artifactId>modelmapper</artifactId>
-            <version>3.2.0</version>
+            <version>${modelmapper.version}</version>
         </dependency>
         <!--jacoco-maven-plugin-->
         <dependency>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
-            <version>0.8.11</version>
+            <version>${jacoco.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
@@ -81,24 +78,43 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-            <version>4.1.0</version>
+            <version>${spring-cloud-starter-netflix-eureka-client.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
-            <version>3.2.3</version>
+            <version>${spring-boot-starter-actuator.version}</version>
         </dependency>
+
         <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
-            <version>3.0.2</version>
+            <version>${jakarta.validation-api.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-feign</artifactId>
-            <version>1.4.7.RELEASE</version>
+            <version>${spring-cloud-starter-feign.version}</version>
         </dependency>
 
+<!--        test -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.wiremock</groupId>
+            <artifactId>wiremock</artifactId>
+            <version>${wiremock.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
