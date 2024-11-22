@@ -481,4 +481,3 @@ target/
 
 /log/
 !/log/product-service.log
-!/log/
