@@ -15,13 +15,14 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @DataJpaTest
 @ContextConfiguration
-@TestPropertySource(locations = "file:src/test/java/resources/application-test.properties")
+@TestPropertySource(locations = "file:src/test/resources/application-test.properties")
 //TestPropertySource(("classpath:application-test.properties"))
 @ActiveProfiles("test")
 class ProductRepositoryTest {
 
     @Autowired
     ProductRepository productRepository;
+
 
     ProductEntity productEntity;
 
