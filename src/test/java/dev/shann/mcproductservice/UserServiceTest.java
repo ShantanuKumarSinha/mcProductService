@@ -1,42 +1,140 @@
 package dev.shann.mcproductservice;
 
-import com.github.tomakehurst.wiremock.junit5.WireMockTest;
+import dev.shann.mcproductservice.dto.UserAuthenticationDTO;
 import dev.shann.mcproductservice.service.UserService;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+
+import static java.lang.Boolean.TRUE;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+
 //TODO
 @ExtendWith(MockitoExtension.class)
-@WireMockTest()
 class UserServiceTest {
 
-    CloseableHttpClient httpClient;
+    private static final String AUTHENTICATE = "/authenticate";
+
+    private static final String USER_AUTHENTICATE = "http://localhost:8082/users/authenticate";
 
     @InjectMocks
     private UserService userService;
 
-    @BeforeEach
-    void setUp() {
-        httpClient = HttpClientBuilder.create().useSystemProperties().build();
-    }
+    @Mock
+    private WebClient webClient;
+
+    @Mock
+    private WebClient.RequestBodyUriSpec requestBodyUri;
+
+    @Mock
+    private WebClient.RequestBodySpec requestBodySpec;
+
+    @Mock
+    private WebClient.RequestHeadersSpec requestHeadersSpec;
+
+    @Mock
+    private WebClient.ResponseSpec responseSpec;
+
+    @Mock
+    private URL url;
+
+    @Mock
+    private HttpURLConnection httpURLConnection;
+
+    @Mock
+    private OutputStream outputStream;
+
+    @Mock
+    private InputStream inputStream;
+
+    @Mock
+    private BufferedReader bufferedReader;
 
 
     @Test
-    @Disabled
-    void testUserAuthentication() {
-        stubFor(get("/authenticate")
-                .willReturn(ok(Boolean.TRUE.toString())));
-        var response = userService.userAuthentication("test@test.com", "Test@123");
-        verify(1,getRequestedFor(urlEqualTo("/authenticate")));
+    void shouldAuthenticateUser() {
+        var email = "test@test.com";
+        var password = "Test@123";
+        when(webClient.post()).thenReturn(requestBodyUri);
+        when(requestBodyUri.uri(AUTHENTICATE)).thenReturn(requestBodySpec);
+        when(requestBodySpec
+                .body(any(Mono.class), eq(UserAuthenticationDTO.class)))
+                .thenReturn(requestHeadersSpec);
+        when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
+        when(responseSpec.bodyToMono(Boolean.class)).thenReturn(Mono.just(TRUE));
+        var response = userService.userAuthentication(email, password);
         assertThat(response).isTrue();
     }
 
+    @Test
+   @Disabled
+    void shouldAuthenticateUserViaHttpConnection() throws IOException, URISyntaxException {
+        var email = "test@test.com";
+        var password = "Test@123";
+        when(url.openConnection()).thenReturn(httpURLConnection);
+        when(httpURLConnection.getOutputStream()).thenReturn(outputStream);
+        ArgumentCaptor<byte[]> argumentCaptor = ArgumentCaptor.forClass(byte[].class);
+        when(httpURLConnection.getInputStream()).thenReturn(inputStream);
+        when(bufferedReader.readLine()).thenReturn(String.valueOf(TRUE));
+        var response = userService.userAuthenticationViaHttpConnection(email, password);
+        verify(outputStream).write(argumentCaptor.capture());
+        assertThat(response).isInstanceOf(Boolean.class);
+    }
+
+    @Test
+    @Disabled
+    void testUserAuthenticationViaHttpConnection_success() throws Exception {
+        // Arrange
+        String email = "test@example.com";
+        String password = "password";
+        String responseBody = "true";
+
+        HttpURLConnection mockConnection = mock(HttpURLConnection.class);
+        URL mockUrl = mock(URL.class);
+
+        // Mock URL and HttpURLConnection behavior
+        URI uri = new URI(USER_AUTHENTICATE); // Create a real URI
+        when(mockUrl.openConnection()).thenReturn(mockConnection);
+        when(mockConnection.getOutputStream()).thenReturn(mock(OutputStream.class));
+        when(mockConnection.getInputStream()).thenReturn(
+                new ByteArrayInputStream(responseBody.getBytes())
+        );
+
+        try (MockedStatic<URI> mockedUri = mockStatic(URI.class)) {
+            mockedUri.when(() -> new URI(USER_AUTHENTICATE)).thenReturn(uri); // Return the real URI
+
+            // Act
+            UserService userService = new UserService();
+            boolean result = userService.userAuthenticationViaHttpConnection(email, password);
+
+            // Assert
+            assertTrue(result);
+
+            // Verify interactions
+            verify(mockConnection).setRequestMethod("POST");
+            verify(mockConnection).setRequestProperty("Content-Type", "application/json");
+            verify(mockConnection).setRequestProperty("Accept", "application/json");
+            verify(mockConnection).setDoOutput(true);
+            verify(mockConnection).setDoInput(true);
+            verify(mockConnection).getOutputStream();
+            verify(mockConnection).getInputStream();
+        }
+    }
 }
