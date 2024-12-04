@@ -56,6 +56,7 @@ class EmailServiceTest {
         verify(javaMailSender).send(simpleMailMessageArgumentCaptor.capture());
         var simpleMailMessageArgumentCaptorValue = simpleMailMessageArgumentCaptor.getValue();
         assert Arrays.stream(simpleMailMessageArgumentCaptorValue.getTo()).anyMatch(to -> to.equals("test@test.com"));
+        assert Arrays.stream(simpleMailMessageArgumentCaptorValue.getTo()).count()==1;
         assert simpleMailMessageArgumentCaptorValue.getTo()[0].equals("test@test.com");
         assert simpleMailMessageArgumentCaptorValue.getSubject().equals("test mail");
         assert simpleMailMessageArgumentCaptorValue.getText().equals("test mail");
