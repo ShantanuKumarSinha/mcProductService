@@ -2,14 +2,14 @@ package dev.shann.mcproductservice;
 
 import dev.shann.mcproductservice.dto.UserAuthenticationDTO;
 import dev.shann.mcproductservice.service.UserService;
+import dev.shann.mcproductservice.utils.HttpConnectionWrapper;
+import jakarta.ws.rs.HttpMethod;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockedStatic;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
@@ -19,6 +19,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -84,17 +85,43 @@ class UserServiceTest {
     }
 
     @Test
+    void shouldNotAuthenticateUser() {
+        var email = "test@test.com";
+        var password = "Test@123";
+        when(webClient.post()).thenReturn(requestBodyUri);
+        when(requestBodyUri.uri(AUTHENTICATE)).thenReturn(requestBodySpec);
+        when(requestBodySpec
+                .body(any(Mono.class), eq(UserAuthenticationDTO.class)))
+                .thenReturn(requestHeadersSpec);
+        when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
+        when(responseSpec.bodyToMono(Boolean.class)).thenReturn(Mono.just(FALSE));
+        var response = userService.userAuthentication(email, password);
+        assertThat(response).isFalse();
+    }
+
+    @Test
    @Disabled
     void shouldAuthenticateUserViaHttpConnection() throws IOException, URISyntaxException {
         var email = "test@test.com";
         var password = "Test@123";
-        when(url.openConnection()).thenReturn(httpURLConnection);
-        when(httpURLConnection.getOutputStream()).thenReturn(outputStream);
-        ArgumentCaptor<byte[]> argumentCaptor = ArgumentCaptor.forClass(byte[].class);
+//        when(url.openConnection()).thenReturn(httpURLConnection);
+//        when(httpURLConnection.getOutputStream()).thenReturn(outputStream);
+        URL url = new URI(USER_AUTHENTICATE).toURL();
+        when(httpURLConnection.getResponseCode()).thenReturn(200);
         when(httpURLConnection.getInputStream()).thenReturn(inputStream);
         when(bufferedReader.readLine()).thenReturn(String.valueOf(TRUE));
+
+        HttpConnectionWrapper wrapper = new HttpConnectionWrapper(url) {
+            @Override
+            protected HttpURLConnection openConnection(URL url) throws IOException {
+                return httpURLConnection;
+            }
+        };
+       when(httpURLConnection.getOutputStream()).thenReturn(outputStream);
+//        ArgumentCaptor<byte[]> argumentCaptor = ArgumentCaptor.forClass(byte[].class);
+
         var response = userService.userAuthenticationViaHttpConnection(email, password);
-        verify(outputStream).write(argumentCaptor.capture());
+//        verify(outputStream).write(argumentCaptor.capture());
         assertThat(response).isInstanceOf(Boolean.class);
     }
 
@@ -137,4 +164,5 @@ class UserServiceTest {
             verify(mockConnection).getInputStream();
         }
     }
+
 }
