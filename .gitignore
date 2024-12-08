@@ -481,3 +481,10 @@ target/
 
 /log/
 !/log/product-service.log
+!/log/
+/.idea/dataSources.xml
+/.idea/jpa.xml
+/.idea/mcProductService.iml
+/.idea/modules.xml
+/log/product-service.log.2024-09-01.0.gz
+/log/product-service.log.2024-12-04.0.gz
