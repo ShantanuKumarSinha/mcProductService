@@ -1,8 +1,8 @@
 package dev.shann.mcproductservice;
 
 import dev.shann.mcproductservice.config.TestConfig;
-import dev.shann.mcproductservice.mail.model.MailDTO;
-import dev.shann.mcproductservice.mail.producer.impl.EmailService;
+import dev.shann.mcproductservice.model.Mail;
+import dev.shann.mcproductservice.adapters.mail.impl.EmailServiceAdapter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -26,24 +26,24 @@ import static org.mockito.Mockito.*;
 class EmailServiceTest {
 
     @InjectMocks
-    private EmailService emailService;
+    private EmailServiceAdapter emailServiceAdapter;
 
     @Mock
     private JavaMailSender javaMailSender;
 
     @Test
     void shouldSendEmail() {
-        var mailDTO = MailDTO.builder().recipient("test@test.com").subject("test mail").msgBody("test mail").build();
+        var mailDTO = Mail.builder().recipient("test@test.com").subject("test mail").msgBody("test mail").build();
         doNothing().when(javaMailSender).send(any(SimpleMailMessage.class));
-        var response = emailService.sendSimpleMail(mailDTO);
+        var response = emailServiceAdapter.sendSimpleMail(mailDTO);
         assertThat(response).isNotNull().isEqualTo("Mail Sent Successfully...");
     }
 
     @Test
     void shouldNotSendEmail() {
-        var mailDTO = MailDTO.builder().recipient("test@test.com").subject("test mail").msgBody("test mail").build();
+        var mailDTO = Mail.builder().recipient("test@test.com").subject("test mail").msgBody("test mail").build();
         doThrow(new MailSendException("Test message")).when(javaMailSender).send(any(SimpleMailMessage.class));
-        var response = emailService.sendSimpleMail(mailDTO);
+        var response = emailServiceAdapter.sendSimpleMail(mailDTO);
         assertThat(response).isNotNull().isEqualTo("Error while Sending Mail");
 //          assertThrows(MailSendException.class, () ->emailService.sendSimpleMail(mailDTO));
     }
@@ -51,9 +51,9 @@ class EmailServiceTest {
 
     @Test
     void shouldVerifySentEmail() {
-        var mailDTO = MailDTO.builder().recipient("test@test.com").subject("test subject").msgBody("test mail").build();
+        var mailDTO = Mail.builder().recipient("test@test.com").subject("test subject").msgBody("test mail").build();
         ArgumentCaptor<SimpleMailMessage> simpleMailMessageArgumentCaptor = ArgumentCaptor.forClass(SimpleMailMessage.class);
-        emailService.sendSimpleMail(mailDTO);
+        emailServiceAdapter.sendSimpleMail(mailDTO);
 
         verify(javaMailSender).send(simpleMailMessageArgumentCaptor.capture());
         var simpleMailMessageArgumentCaptorValue = simpleMailMessageArgumentCaptor.getValue();
