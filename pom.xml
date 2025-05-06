@@ -26,7 +26,7 @@
         <spring-boot-starter-actuator.version>3.2.3</spring-boot-starter-actuator.version>
         <jakarta.validation-api.version>3.0.2</jakarta.validation-api.version>
         <spring-cloud-starter-feign.version>1.4.7.RELEASE</spring-cloud-starter-feign.version>
-        <wiremock.version>3.9.1</wiremock.version>
+        <wiremock.version>3.12.0</wiremock.version>
         <sonar-maven-plugin.version>3.8.0.2131</sonar-maven-plugin.version>
         <spring-cloud-dependencies.version>2022.0.4</spring-cloud-dependencies.version>
         <maven-dependency-plugin.version>3.8.1</maven-dependency-plugin.version>
