@@ -1,12 +1,12 @@
 package dev.shann.mcproductservice.service;
 
 import dev.shann.mcproductservice.entity.ProductEntity;
+import dev.shann.mcproductservice.exceptions.UnAuthorizedAccessException;
+import dev.shann.mcproductservice.exceptions.ProductNotFoundException;
 import dev.shann.mcproductservice.mail.model.MailDTO;
 import dev.shann.mcproductservice.mail.producer.EmailClient;
 import dev.shann.mcproductservice.model.Product;
 import dev.shann.mcproductservice.repository.ProductRepository;
-import dev.shann.mcproductservice.utility.ProductNotFoundException;
-import dev.shann.mcproductservice.utility.UnAuthorizedAccessException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.data.domain.PageRequest;

@@ -17,6 +17,9 @@ import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * This is User Service Adapter. We will call UserService using this
+ */
 @Component
 @Slf4j
 public class UserService {
@@ -37,7 +40,12 @@ public class UserService {
     @Autowired
     public ObjectMapper objectMapper;
 
-
+    /**
+     * Verify user using WebClient
+     * @param email
+     * @param password
+     * @return Boolean Type
+     */
     public boolean  userAuthentication(String email, String password) {
         UserAuthenticationDTO userAuthenticationDTO  = new UserAuthenticationDTO(email, password);
 //        var responseEntity = restTemplate.postForEntity(AUTHENTICATE,userAuthenticationDTO, Boolean.class);
@@ -54,6 +62,13 @@ public class UserService {
 
         return  false;
     }
+
+    /**
+     * Calls UserAuthentiactionFeignClient
+     * @param email
+     * @param password
+     * @return Boolean type
+     */
     public boolean userAuthenticationViaFeignClient(String email, String password){
     return userServiceClient.authenticateUser(new UserAuthenticationDTO(email, password));
     }

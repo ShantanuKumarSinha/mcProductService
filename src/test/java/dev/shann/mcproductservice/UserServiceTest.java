@@ -2,6 +2,7 @@ package dev.shann.mcproductservice;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import dev.shann.mcproductservice.dto.UserAuthenticationDTO;
+import dev.shann.mcproductservice.service.UserService;
 import dev.shann.mcproductservice.utils.HttpConnectionWrapper;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

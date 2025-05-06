@@ -8,6 +8,7 @@ import dev.shann.mcproductservice.repository.ProductRepository;
 import dev.shann.mcproductservice.service.ProductService;
 import dev.shann.mcproductservice.exceptions.ProductNotFoundException;
 import dev.shann.mcproductservice.exceptions.UnAuthorizedAccessException;
+import dev.shann.mcproductservice.service.UserService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
