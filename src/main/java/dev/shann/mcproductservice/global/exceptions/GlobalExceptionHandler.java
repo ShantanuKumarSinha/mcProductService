@@ -1,4 +1,4 @@
-package dev.shann.mcproductservice.config;
+package dev.shann.mcproductservice.global.exceptions;
 
 import dev.shann.mcproductservice.exceptions.ProductNotFoundException;
 import dev.shann.mcproductservice.exceptions.UnAuthorizedAccessException;

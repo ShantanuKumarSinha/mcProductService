@@ -1,7 +1,7 @@
-package dev.shann.mcproductservice.mail.producer.impl;
+package dev.shann.mcproductservice.adapters.mail.impl;
 
-import dev.shann.mcproductservice.mail.model.MailDTO;
-import dev.shann.mcproductservice.mail.producer.EmailClient;
+import dev.shann.mcproductservice.model.Mail;
+import dev.shann.mcproductservice.adapters.mail.MailAdapter;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
@@ -14,24 +14,24 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 
 import java.io.File;
 @Slf4j
-public class EmailService implements EmailClient {
+public class EmailServiceAdapter implements MailAdapter {
 
     private  JavaMailSender javaMailSender;
 
     @Value("${spring.mail.username}") private String sender;
 
-    public EmailService(JavaMailSender javaMailSender){
+    public EmailServiceAdapter(JavaMailSender javaMailSender){
     this.javaMailSender = javaMailSender;
     }
 
     @Override
-    public String sendSimpleMail(MailDTO mailDTO) {
+    public String sendSimpleMail(Mail mail) {
         try{
             SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
             simpleMailMessage.setFrom(sender);
-            simpleMailMessage.setTo(mailDTO.getRecipient());
-            simpleMailMessage.setText(mailDTO.getMsgBody());
-            simpleMailMessage.setSubject(mailDTO.getSubject());
+            simpleMailMessage.setTo(mail.getRecipient());
+            simpleMailMessage.setText(mail.getMsgBody());
+            simpleMailMessage.setSubject(mail.getSubject());
             log.info("Sending Mail : {}",simpleMailMessage);
 
             // Sending the mail
@@ -46,7 +46,7 @@ public class EmailService implements EmailClient {
     }
 
     @Override
-    public String sendMailWithAttachment(MailDTO mailDTO) {
+    public String sendMailWithAttachment(Mail mail) {
         // Creating a mime message
         MimeMessage mimeMessage
                 = javaMailSender.createMimeMessage();
@@ -58,15 +58,15 @@ public class EmailService implements EmailClient {
             mimeMessageHelper
                     = new MimeMessageHelper(mimeMessage, true);
             mimeMessageHelper.setFrom(sender);
-            mimeMessageHelper.setTo(mailDTO.getRecipient());
-            mimeMessageHelper.setText(mailDTO.getMsgBody());
+            mimeMessageHelper.setTo(mail.getRecipient());
+            mimeMessageHelper.setText(mail.getMsgBody());
             mimeMessageHelper.setSubject(
-                    mailDTO.getSubject());
+                    mail.getSubject());
 
             // Adding the attachment
             FileSystemResource file
                     = new FileSystemResource(
-                    new File(mailDTO.getAttachment()));
+                    new File(mail.getAttachment()));
 
             mimeMessageHelper.addAttachment(
                     file.getFilename(), file);

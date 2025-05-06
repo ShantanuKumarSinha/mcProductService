@@ -1,8 +1,8 @@
 package dev.shann.mcproductservice;
 
 import dev.shann.mcproductservice.entity.ProductEntity;
-import dev.shann.mcproductservice.mail.model.MailDTO;
-import dev.shann.mcproductservice.mail.producer.EmailClient;
+import dev.shann.mcproductservice.model.Mail;
+import dev.shann.mcproductservice.adapters.mail.MailAdapter;
 import dev.shann.mcproductservice.model.Product;
 import dev.shann.mcproductservice.repository.ProductRepository;
 import dev.shann.mcproductservice.service.ProductService;
@@ -38,7 +38,7 @@ class ProductServiceTest {
     @Mock
     ProductRepository productRepository;
     @Mock
-    EmailClient emailClient;
+    MailAdapter mailAdapter;
     private Product product;
     private ProductEntity productEntity;
     private ProductEntity createdProduct;
@@ -72,11 +72,11 @@ class ProductServiceTest {
         when(productRepository.save(productEntity))
                 .thenReturn(productEntity.toBuilder().productId(1L).build());
 
-        when(emailClient.sendSimpleMail(buildMailDTO(createdProduct))).thenReturn("Success");
+        when(mailAdapter.sendSimpleMail(buildMailDTO(createdProduct))).thenReturn("Success");
 
         var actualProduct = productService.createProduct(product, email, password);
 
-        verify(emailClient, times(1)).sendSimpleMail(buildMailDTO(createdProduct));
+        verify(mailAdapter, times(1)).sendSimpleMail(buildMailDTO(createdProduct));
 
         assertThat(actualProduct).extracting(Product::getProductId, Product::getProductName,
                         Product::getBrand, Product::getPrice,
@@ -151,8 +151,8 @@ class ProductServiceTest {
         return ProductEntity.builder().productId(1L).productName("Test").brand("Test Brand").quantity(100).price(1000).build();
     }
 
-    private MailDTO buildMailDTO(ProductEntity createdProduct) {
-        return MailDTO.builder().subject(String.format("Product Created with Product Id %s: ", createdProduct
+    private Mail buildMailDTO(ProductEntity createdProduct) {
+        return Mail.builder().subject(String.format("Product Created with Product Id %s: ", createdProduct
                         .getProductId().toString()))
                 .msgBody(String.format("Product Details are listed below %s: ", createdProduct
                         .toString()))

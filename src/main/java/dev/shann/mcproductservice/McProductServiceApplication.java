@@ -1,7 +1,7 @@
 package dev.shann.mcproductservice;
 
-import dev.shann.mcproductservice.mail.producer.EmailClient;
-import dev.shann.mcproductservice.mail.producer.impl.EmailService;
+import dev.shann.mcproductservice.adapters.mail.MailAdapter;
+import dev.shann.mcproductservice.adapters.mail.impl.EmailServiceAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -64,8 +64,8 @@ public class McProductServiceApplication {
 
     @Bean
     @LoadBalanced
-    public EmailClient emailClient() {
-        return new EmailService(mailSender());
+    public MailAdapter mailAdapter() {
+        return new EmailServiceAdapter(mailSender());
     }
 
 }

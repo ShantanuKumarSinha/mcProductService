@@ -1,4 +1,4 @@
-package dev.shann.mcproductservice.mail.model;
+package dev.shann.mcproductservice.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 
-public class MailDTO {
+public class Mail {
 
     // Class data members
     private String recipient;
