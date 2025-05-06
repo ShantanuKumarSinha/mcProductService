@@ -1,4 +1,4 @@
-package dev.shann.mcproductservice.utility;
+package dev.shann.mcproductservice.exceptions;
 
 public class ProductNotFoundException extends IllegalArgumentException{
 

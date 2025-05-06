@@ -486,5 +486,4 @@ target/
 /.idea/jpa.xml
 /.idea/mcProductService.iml
 /.idea/modules.xml
-/log/product-service.log.2024-09-01.0.gz
-/log/product-service.log.2024-12-04.0.gz
+!/log/**

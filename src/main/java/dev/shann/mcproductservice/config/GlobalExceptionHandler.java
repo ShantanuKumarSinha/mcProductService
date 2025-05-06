@@ -1,7 +1,7 @@
 package dev.shann.mcproductservice.config;
 
-import dev.shann.mcproductservice.utility.ProductNotFoundException;
-import dev.shann.mcproductservice.utility.UnAuthorizedAccessException;
+import dev.shann.mcproductservice.exceptions.ProductNotFoundException;
+import dev.shann.mcproductservice.exceptions.UnAuthorizedAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

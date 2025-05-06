@@ -15,6 +15,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -50,15 +51,17 @@ class EmailServiceTest {
 
     @Test
     void shouldVerifySentEmail() {
-        var mailDTO = MailDTO.builder().recipient("test@test.com").subject("test mail").msgBody("test mail").build();
+        var mailDTO = MailDTO.builder().recipient("test@test.com").subject("test subject").msgBody("test mail").build();
         ArgumentCaptor<SimpleMailMessage> simpleMailMessageArgumentCaptor = ArgumentCaptor.forClass(SimpleMailMessage.class);
         emailService.sendSimpleMail(mailDTO);
+
         verify(javaMailSender).send(simpleMailMessageArgumentCaptor.capture());
         var simpleMailMessageArgumentCaptorValue = simpleMailMessageArgumentCaptor.getValue();
-        assert Arrays.stream(simpleMailMessageArgumentCaptorValue.getTo()).anyMatch(to -> to.equals("test@test.com"));
-        assert Arrays.stream(simpleMailMessageArgumentCaptorValue.getTo()).count()==1;
-        assert simpleMailMessageArgumentCaptorValue.getTo()[0].equals("test@test.com");
-        assert simpleMailMessageArgumentCaptorValue.getSubject().equals("test mail");
-        assert simpleMailMessageArgumentCaptorValue.getText().equals("test mail");
+
+        assert Arrays.asList(Objects.requireNonNull(simpleMailMessageArgumentCaptorValue.getTo())).contains("test@test.com");
+        assert Arrays.stream(simpleMailMessageArgumentCaptorValue.getTo()).count() == 1;
+
+        assert Objects.equals(simpleMailMessageArgumentCaptorValue.getSubject(), "test subject");
+        assert Objects.equals(simpleMailMessageArgumentCaptorValue.getText(), "test mail");
     }
 }

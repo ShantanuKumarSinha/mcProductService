@@ -1,15 +1,16 @@
 package dev.shann.mcproductservice;
 
+import com.github.tomakehurst.wiremock.WireMockServer;
 import dev.shann.mcproductservice.dto.UserAuthenticationDTO;
 import dev.shann.mcproductservice.service.UserService;
 import dev.shann.mcproductservice.utils.HttpConnectionWrapper;
-import jakarta.ws.rs.HttpMethod;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
@@ -23,17 +24,20 @@ import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 //TODO
+// May be try using WebTestClient also
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 
     private static final String AUTHENTICATE = "/authenticate";
 
     private static final String USER_AUTHENTICATE = "http://localhost:8082/users/authenticate";
+
+    private static WireMockServer wireMockServer;
 
     @InjectMocks
     private UserService userService;
@@ -100,7 +104,7 @@ class UserServiceTest {
     }
 
     @Test
-   @Disabled
+    @Disabled
     void shouldAuthenticateUserViaHttpConnection() throws IOException, URISyntaxException {
         var email = "test@test.com";
         var password = "Test@123";
@@ -117,7 +121,7 @@ class UserServiceTest {
                 return httpURLConnection;
             }
         };
-       when(httpURLConnection.getOutputStream()).thenReturn(outputStream);
+        when(httpURLConnection.getOutputStream()).thenReturn(outputStream);
 //        ArgumentCaptor<byte[]> argumentCaptor = ArgumentCaptor.forClass(byte[].class);
 
         var response = userService.userAuthenticationViaHttpConnection(email, password);
@@ -127,6 +131,7 @@ class UserServiceTest {
 
     @Test
     @Disabled
+        // TODO
     void testUserAuthenticationViaHttpConnection_success() throws Exception {
         // Arrange
         String email = "test@example.com";
@@ -163,6 +168,17 @@ class UserServiceTest {
             verify(mockConnection).getOutputStream();
             verify(mockConnection).getInputStream();
         }
+    }
+
+    @Test
+    @Disabled
+        //TODO
+    void testUserAuthenticationStub() {
+        wireMockServer = new WireMockServer(8080);
+        wireMockServer.start();
+//        wireMockServer.stubFor(WireMock.post(AUTHENTICATE));
+        assertThat(wireMockServer.port()).isEqualTo(8080);
+
     }
 
 }
