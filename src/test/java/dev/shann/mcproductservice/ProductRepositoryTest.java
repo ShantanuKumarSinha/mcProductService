@@ -1,7 +1,7 @@
 package dev.shann.mcproductservice;
 
 import dev.shann.mcproductservice.entity.ProductEntity;
-import dev.shann.mcproductservice.repository.ProductPair;
+import dev.shann.mcproductservice.projections.ProductNameAndPrice;
 import dev.shann.mcproductservice.repository.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 
 @DataJpaTest
 //@TestPropertySource(locations = "file:src/test/resources/application-test.properties")
@@ -55,27 +56,22 @@ class ProductRepositoryTest {
     void shouldFindProductByBrand() {
         var actualProductList = productRepository.findByBrandContaining(productEntity.getBrand(), PageRequest.of(0, 2, Sort.by("price").descending()
                 .and(Sort.by("brand"))));
-        // TODO
-        // remove getIndex and use tuple in containing
-        assertThat(actualProductList.get(0)).isNotNull()
-                .extracting(ProductEntity::getProductId, ProductEntity::getProductName,
-                        ProductEntity::getBrand, ProductEntity::getPrice,
-                        ProductEntity::getQuantity)
-                .contains(productEntity.getProductId(), productEntity.getProductName(),
-                        productEntity.getBrand(), productEntity.getPrice(),
-                        productEntity.getQuantity());
+
+        assertThat(actualProductList).isNotNull().hasSize(1);
+        assertThat(actualProductList)
+                .extracting(ProductEntity::getProductName, ProductEntity::getBrand)
+                .contains(tuple(productEntity.getProductName(), productEntity.getBrand()));
     }
 
     // Tested Projection of a pair of field In JPA without using Query annotation
     @Test
     void shoudFindProductPairByBrand() {
-        var productPairs = productRepository.findByBrand("Brand").stream().map(optionProudctName ->
+        var productNameAndPrices = productRepository.findByBrand("Brand").stream().map(optionProudctName ->
                 optionProudctName.orElseThrow(RuntimeException::new)
         ).toList();
-        assertThat(productPairs).isNotNull();
-        assertThat(productPairs.size()).isEqualTo(1);
-        // TODO
-        // remove getIndex and use tuple in containing
-        assertThat(productPairs.get(0)).extracting(ProductPair::getProductName, ProductPair::getPrice).contains("Test", 100.0);
+        assertThat(productNameAndPrices).isNotNull().hasSize(1);
+        assertThat(productNameAndPrices).isNotNull().extracting(ProductNameAndPrice::getProductName, ProductNameAndPrice::getPrice)
+                .contains(tuple("Test", 100.0));
     }
+
 }

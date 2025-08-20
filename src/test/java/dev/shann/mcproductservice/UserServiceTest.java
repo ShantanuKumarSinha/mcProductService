@@ -1,6 +1,8 @@
 package dev.shann.mcproductservice;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.client.WireMock;
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import dev.shann.mcproductservice.dto.UserAuthenticationDTO;
 import dev.shann.mcproductservice.service.UserService;
 import dev.shann.mcproductservice.utils.HttpConnectionWrapper;
@@ -171,12 +173,13 @@ class UserServiceTest {
     }
 
     @Test
-    @Disabled
+        // @Disabled
         //TODO
     void testUserAuthenticationStub() {
-        wireMockServer = new WireMockServer(8080);
+        wireMockServer = new WireMockServer(
+                WireMockConfiguration.wireMockConfig().port(8080));
         wireMockServer.start();
-//        wireMockServer.stubFor(WireMock.post(AUTHENTICATE));
+        wireMockServer.stubFor(WireMock.post(AUTHENTICATE));
         assertThat(wireMockServer.port()).isEqualTo(8080);
 
     }
