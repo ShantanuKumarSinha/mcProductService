@@ -70,7 +70,7 @@ class ProductRepositoryTest {
                 optionProudctName.orElseThrow(RuntimeException::new)
         ).toList();
         assertThat(productNameAndPrices).isNotNull().hasSize(1);
-        assertThat(productNameAndPrices).isNotNull().extracting(ProductNameAndPrice::getProductName, ProductNameAndPrice::getPrice)
+        assertThat(productNameAndPrices).extracting(ProductNameAndPrice::getProductName, ProductNameAndPrice::getPrice)
                 .contains(tuple("Test", 100.0));
     }
 
