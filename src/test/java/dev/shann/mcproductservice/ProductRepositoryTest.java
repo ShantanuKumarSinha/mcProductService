@@ -65,12 +65,12 @@ class ProductRepositoryTest {
 
     // Tested Projection of a pair of field In JPA without using Query annotation
     @Test
-    void shoudFindProductPairByBrand() {
-        var productNameAndPrices = productRepository.findByBrand("Brand").stream().map(optionProudctName ->
-                optionProudctName.orElseThrow(RuntimeException::new)
+    void shouldFindProductNameAndPriceByBrand() {
+        var productNameAndPrice = productRepository.findByBrand("Brand").stream().map(optionProductNameAndPrice ->
+                optionProductNameAndPrice.orElseThrow(RuntimeException::new)
         ).toList();
-        assertThat(productNameAndPrices).isNotNull().hasSize(1);
-        assertThat(productNameAndPrices).extracting(ProductNameAndPrice::getProductName, ProductNameAndPrice::getPrice)
+        assertThat(productNameAndPrice).isNotNull().hasSize(1);
+        assertThat(productNameAndPrice).extracting(ProductNameAndPrice::getProductName, ProductNameAndPrice::getPrice)
                 .contains(tuple("Test", 100.0));
     }
 

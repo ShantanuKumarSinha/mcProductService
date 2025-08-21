@@ -1,5 +1,6 @@
 package dev.shann.mcproductservice;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.shann.mcproductservice.entity.ProductEntity;
 import dev.shann.mcproductservice.model.Mail;
 import dev.shann.mcproductservice.adapters.mail.MailAdapter;
@@ -9,6 +10,9 @@ import dev.shann.mcproductservice.service.ProductService;
 import dev.shann.mcproductservice.exceptions.ProductNotFoundException;
 import dev.shann.mcproductservice.exceptions.UnAuthorizedAccessException;
 import dev.shann.mcproductservice.service.UserService;
+import dev.shann.mcproductservice.service.impl.ProductServiceImpl;
+import dev.shann.mcproductservice.service.impl.UserServiceImpl;
+import dev.shann.mcproductservice.utils.UserServiceClient;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,11 +21,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static dev.shann.mcproductservice.utils.ApplicationConstants.INVALID_USER;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.*;
@@ -30,15 +37,15 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class ProductServiceTest {
 
-    private static final String INVALID_USER = "Invalid User";
-    @InjectMocks
-    ProductService productService;
     @Mock
-    UserService userService;
+    private UserService userService;
     @Mock
     ProductRepository productRepository;
     @Mock
     MailAdapter mailAdapter;
+    @InjectMocks
+    ProductService productService = new ProductServiceImpl(productRepository,userService, mailAdapter);
+
     private Product product;
     private ProductEntity productEntity;
     private ProductEntity createdProduct;
@@ -74,7 +81,7 @@ class ProductServiceTest {
 
         when(mailAdapter.sendSimpleMail(buildMailDTO(createdProduct))).thenReturn("Success");
 
-        var actualProduct = productService.createProduct(product, email, password);
+        var actualProduct = productService.createOrUpdateProduct(product, email, password);
 
         verify(mailAdapter, times(1)).sendSimpleMail(buildMailDTO(createdProduct));
 

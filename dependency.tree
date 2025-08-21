@@ -150,11 +150,19 @@ dev.shann:mcProductService:jar:0.0.1-SNAPSHOT
 |     |     \- io.github.openfeign.form:feign-form:jar:3.8.0:compile
 |     +- io.github.openfeign:feign-core:jar:12.4:compile
 |     \- io.github.openfeign:feign-slf4j:jar:12.4:compile
++- org.springdoc:springdoc-openapi-starter-webmvc-ui:jar:2.6.0:compile
+|  +- org.springdoc:springdoc-openapi-starter-webmvc-api:jar:2.6.0:compile
+|  |  \- org.springdoc:springdoc-openapi-starter-common:jar:2.6.0:compile
+|  |     \- io.swagger.core.v3:swagger-core-jakarta:jar:2.2.22:compile
+|  |        +- org.apache.commons:commons-lang3:jar:3.12.0:compile
+|  |        +- io.swagger.core.v3:swagger-annotations-jakarta:jar:2.2.22:compile
+|  |        \- io.swagger.core.v3:swagger-models-jakarta:jar:2.2.22:compile
+|  \- org.webjars:swagger-ui:jar:5.17.14:compile
 +- org.springframework.boot:spring-boot-starter-test:jar:3.1.4:test
 |  +- org.springframework.boot:spring-boot-test:jar:3.1.4:test
 |  +- org.springframework.boot:spring-boot-test-autoconfigure:jar:3.1.4:test
 |  +- com.jayway.jsonpath:json-path:jar:2.8.0:test
-|  +- jakarta.xml.bind:jakarta.xml.bind-api:jar:4.0.1:runtime
+|  +- jakarta.xml.bind:jakarta.xml.bind-api:jar:4.0.1:compile
 |  +- net.minidev:json-smart:jar:2.4.11:test
 |  |  \- net.minidev:accessors-smart:jar:2.4.11:test
 |  +- org.assertj:assertj-core:jar:3.24.2:test
@@ -220,6 +228,6 @@ dev.shann:mcProductService:jar:0.0.1-SNAPSHOT
 |  +- commons-fileupload:commons-fileupload:jar:1.5:compile
 |  +- com.networknt:json-schema-validator:jar:1.5.5:test
 |  |  +- com.ethlo.time:itu:jar:1.10.3:test
-|  |  \- com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:jar:2.15.2:test
+|  |  \- com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:jar:2.15.2:compile
 |  \- org.slf4j:slf4j-api:jar:2.0.9:compile
 \- com.h2database:h2:jar:2.1.214:test

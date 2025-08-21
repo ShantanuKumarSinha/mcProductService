@@ -110,7 +110,7 @@ class ProductControllerTest {
     @Test
     void shouldCreateProduct() {
         var expectedResponse = getProductDetails();
-        when(productService.createProduct(any(Product.class), anyString(), anyString())).thenReturn(expectedResponse);
+        when(productService.createOrUpdateProduct(any(Product.class), anyString(), anyString())).thenReturn(expectedResponse);
         CreateOrUpdateProductDetailsRequestDto requestDto = new CreateOrUpdateProductDetailsRequestDto("test@test.com", "testPassword", expectedResponse);
         var actualProduct = productController.createProduct(requestDto);
         assertThat(actualProduct).isNotNull().extracting(Product::getProductId, Product::getProductName, Product::getPrice, Product::getQuantity, Product::getBrand).contains(1L, expectedResponse.getProductName(), expectedResponse.getBrand(), expectedResponse.getPrice(), expectedResponse.getQuantity());
@@ -119,7 +119,7 @@ class ProductControllerTest {
     @Test
     void shouldThrowUnAuthorizedExceptionWhileCreatingProduct() {
         var expectedResponse = getProductDetails();
-        when(productService.createProduct(any(Product.class), anyString(), anyString())).thenThrow(new UnAuthorizedAccessException(null));
+        when(productService.createOrUpdateProduct(any(Product.class), anyString(), anyString())).thenThrow(new UnAuthorizedAccessException(null));
         CreateOrUpdateProductDetailsRequestDto requestDto = new CreateOrUpdateProductDetailsRequestDto("test@test.com", "testPassword", expectedResponse);
         assertThrows(UnAuthorizedAccessException.class, () -> productController.createProduct(requestDto));
     }
