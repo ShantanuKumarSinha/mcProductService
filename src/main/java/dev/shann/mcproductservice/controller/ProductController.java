@@ -51,15 +51,17 @@ public class ProductController {
     @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Product createProduct(@Validated @RequestBody CreateOrUpdateProductDetailsRequestDto
                                          requestDto) {
-        return this.productService.createProduct(requestDto.product(),
+        return this.productService.createOrUpdateProduct(requestDto.product(),
                 requestDto.emailId(), requestDto.password());
     }
 
     @PutMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Product updateProduct(@Validated @RequestBody CreateOrUpdateProductDetailsRequestDto
                                          requestDto) {
-        return this.productService.updateProduct(requestDto.product(),
+        return this.productService.createOrUpdateProduct(requestDto.product(),
                 requestDto.emailId(), requestDto.password());
     }
+
+
 
 }

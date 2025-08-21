@@ -14,16 +14,35 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 
 import java.io.File;
 @Slf4j
+/**
+ * EmailServiceAdapter is an implementation of the MailAdapter interface
+ * that uses JavaMailSender to send simple and attachment emails.
+ * It provides methods to send emails with or without attachments.
+ *
+ * @author shann
+ * @version 1.0
+ */
 public class EmailServiceAdapter implements MailAdapter {
 
     private  JavaMailSender javaMailSender;
 
     @Value("${spring.mail.username}") private String sender;
 
+    /**
+     * Constructor to initialize the JavaMailSender.
+     *
+     * @param javaMailSender JavaMailSender instance
+     */
     public EmailServiceAdapter(JavaMailSender javaMailSender){
     this.javaMailSender = javaMailSender;
     }
 
+    /**
+     * Sends a simple email.
+     *
+     * @param mail Mail object containing recipient, subject, and message body
+     * @return String indicating success or failure of the email sending
+     */
     @Override
     public String sendSimpleMail(Mail mail) {
         try{
@@ -45,6 +64,12 @@ public class EmailServiceAdapter implements MailAdapter {
         }
     }
 
+    /**
+     * Sends an email with an attachment.
+     *
+     * @param mail Mail object containing recipient, subject, message body, and attachment path
+     * @return String indicating success or failure of the email sending
+     */
     @Override
     public String sendMailWithAttachment(Mail mail) {
         // Creating a mime message

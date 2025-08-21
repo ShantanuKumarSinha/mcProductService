@@ -1,11 +1,13 @@
 package dev.shann.mcproductservice;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import dev.shann.mcproductservice.dto.UserAuthenticationDTO;
 import dev.shann.mcproductservice.service.UserService;
-import dev.shann.mcproductservice.utils.HttpConnectionWrapper;
+import dev.shann.mcproductservice.service.impl.UserServiceImpl;
+import dev.shann.mcproductservice.utils.UserServiceClient;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,15 +15,20 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 
+import static dev.shann.mcproductservice.utils.ApplicationConstants.AUTHENTICATE;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -33,19 +40,27 @@ import static org.mockito.Mockito.*;
 //TODO
 // May be try using WebTestClient also
 @ExtendWith(MockitoExtension.class)
+@TestPropertySource("classpath:application-test.properties")
 class UserServiceTest {
-
-    private static final String AUTHENTICATE = "/authenticate";
-
-    private static final String USER_AUTHENTICATE = "http://localhost:8082/users/authenticate";
 
     private static WireMockServer wireMockServer;
 
-    @InjectMocks
-    private UserService userService;
+    private String USER_AUTHENTICATE = "http://localhost:8082/users";
+
+    @Mock
+    private RestTemplate restTemplate;
 
     @Mock
     private WebClient webClient;
+
+    @Mock
+    private UserServiceClient userServiceClient;
+
+    @Mock
+    private ObjectMapper objectMapper;
+
+    @InjectMocks
+    private UserService userService = new UserServiceImpl(restTemplate, webClient, userServiceClient, objectMapper);
 
     @Mock
     private WebClient.RequestBodyUriSpec requestBodyUri;
@@ -107,32 +122,6 @@ class UserServiceTest {
 
     @Test
     @Disabled
-    void shouldAuthenticateUserViaHttpConnection() throws IOException, URISyntaxException {
-        var email = "test@test.com";
-        var password = "Test@123";
-//        when(url.openConnection()).thenReturn(httpURLConnection);
-//        when(httpURLConnection.getOutputStream()).thenReturn(outputStream);
-        URL url = new URI(USER_AUTHENTICATE).toURL();
-        when(httpURLConnection.getResponseCode()).thenReturn(200);
-        when(httpURLConnection.getInputStream()).thenReturn(inputStream);
-        when(bufferedReader.readLine()).thenReturn(String.valueOf(TRUE));
-
-        HttpConnectionWrapper wrapper = new HttpConnectionWrapper(url) {
-            @Override
-            protected HttpURLConnection openConnection(URL url) throws IOException {
-                return httpURLConnection;
-            }
-        };
-        when(httpURLConnection.getOutputStream()).thenReturn(outputStream);
-//        ArgumentCaptor<byte[]> argumentCaptor = ArgumentCaptor.forClass(byte[].class);
-
-        var response = userService.userAuthenticationViaHttpConnection(email, password);
-//        verify(outputStream).write(argumentCaptor.capture());
-        assertThat(response).isInstanceOf(Boolean.class);
-    }
-
-    @Test
-    @Disabled
         // TODO
     void testUserAuthenticationViaHttpConnection_success() throws Exception {
         // Arrange
@@ -152,10 +141,9 @@ class UserServiceTest {
         );
 
         try (MockedStatic<URI> mockedUri = mockStatic(URI.class)) {
-            mockedUri.when(() -> new URI(USER_AUTHENTICATE)).thenReturn(uri); // Return the real URI
+            mockedUri.when(() -> new URI(USER_AUTHENTICATE)).thenReturn(TRUE); // Return the real URI
 
             // Act
-            UserService userService = new UserService();
             boolean result = userService.userAuthenticationViaHttpConnection(email, password);
 
             // Assert
@@ -173,7 +161,7 @@ class UserServiceTest {
     }
 
     @Test
-        // @Disabled
+    @Disabled
         //TODO
     void testUserAuthenticationStub() {
         wireMockServer = new WireMockServer(

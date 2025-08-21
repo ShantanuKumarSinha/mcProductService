@@ -1,13 +1,14 @@
-package dev.shann.mcproductservice.service;
+package dev.shann.mcproductservice.utils;
 
 import dev.shann.mcproductservice.dto.UserAuthenticationDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name="user-service", url = "http://localhost:8082/users")
+import static dev.shann.mcproductservice.utils.ApplicationConstants.AUTHENTICATE;
+
+@FeignClient(name="user-service", url ="${user.service.client.user.name-alt}")
 public interface UserServiceClient {
-    public static final String AUTHENTICATE =  "/authenticate";
 
     @PostMapping(value = AUTHENTICATE)
     public Boolean authenticateUser(@RequestBody UserAuthenticationDTO userAuthenticationDTO);
