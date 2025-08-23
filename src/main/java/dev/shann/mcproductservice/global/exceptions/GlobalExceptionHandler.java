@@ -13,7 +13,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(value ={UnAuthorizedAccessException.class})
+    @ExceptionHandler(value = {UnAuthorizedAccessException.class})
     public ResponseEntity<Object> handleUnAuthorizedAccessException(
             UnAuthorizedAccessException unAuthorizedAccessException, WebRequest request) {
         return new ResponseEntity<>(

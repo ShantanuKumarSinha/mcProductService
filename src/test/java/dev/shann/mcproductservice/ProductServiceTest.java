@@ -1,13 +1,13 @@
 package dev.shann.mcproductservice;
 
-import dev.shann.mcproductservice.entity.ProductEntity;
-import dev.shann.mcproductservice.model.Mail;
 import dev.shann.mcproductservice.adapters.mail.MailAdapter;
+import dev.shann.mcproductservice.entity.ProductEntity;
+import dev.shann.mcproductservice.exceptions.ProductNotFoundException;
+import dev.shann.mcproductservice.exceptions.UnAuthorizedAccessException;
+import dev.shann.mcproductservice.model.Mail;
 import dev.shann.mcproductservice.model.Product;
 import dev.shann.mcproductservice.repository.ProductRepository;
 import dev.shann.mcproductservice.service.ProductService;
-import dev.shann.mcproductservice.exceptions.ProductNotFoundException;
-import dev.shann.mcproductservice.exceptions.UnAuthorizedAccessException;
 import dev.shann.mcproductservice.service.UserService;
 import dev.shann.mcproductservice.service.impl.ProductServiceImpl;
 import org.assertj.core.api.Assertions;
@@ -18,6 +18,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Pageable;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -32,13 +33,13 @@ import static org.mockito.Mockito.*;
 class ProductServiceTest {
 
     @Mock
-    private UserService userService;
-    @Mock
     ProductRepository productRepository;
     @Mock
     MailAdapter mailAdapter;
+    @Mock
+    private UserService userService;
     @InjectMocks
-    ProductService productService = new ProductServiceImpl(productRepository,userService, mailAdapter);
+    ProductService productService = new ProductServiceImpl(productRepository, userService, mailAdapter);
 
     private Product product;
     private ProductEntity productEntity;

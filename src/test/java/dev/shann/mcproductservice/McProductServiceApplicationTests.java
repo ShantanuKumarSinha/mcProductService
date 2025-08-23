@@ -33,12 +33,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class McProductServiceApplicationTests {
 
     WireMockServer wireMockServer;
-    @Value("${user.service.client.user.name-alt}")
-    private String urlAlt;
-
     @Autowired
     MockMvc mockMvc;
-
+    @Value("${user.service.client.user.name-alt}")
+    private String urlAlt;
     @Autowired
     private ObjectMapper objectMapper;
 

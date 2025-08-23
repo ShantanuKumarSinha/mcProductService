@@ -31,6 +31,7 @@ public class LoggerInterceptor implements HandlerInterceptor {
 
     /**
      * This method is called before the request is handled by the controller.
+     *
      * @param request
      * @param response
      * @param handler
@@ -50,6 +51,7 @@ public class LoggerInterceptor implements HandlerInterceptor {
 
     /**
      * This method is called after the handler is executed but before the view is rendered.
+     *
      * @param request
      * @param response
      * @param handler
@@ -57,20 +59,21 @@ public class LoggerInterceptor implements HandlerInterceptor {
      * @throws Exception
      */
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception{
-       if (handler != null) {
-           log.info("Handler: {}", handler.getClass().getName());
-       }
-       if (modelAndView != null) {
-           log.info("Model Attributes: {}", modelAndView.getModel());
-       }
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        if (handler != null) {
+            log.info("Handler: {}", handler.getClass().getName());
+        }
+        if (modelAndView != null) {
+            log.info("Model Attributes: {}", modelAndView.getModel());
+        }
         // Log response details here
-       log.info("Response Status: {}", response.getStatus());
+        log.info("Response Status: {}", response.getStatus());
         endTime = (int) System.currentTimeMillis();
     }
 
     /**
      * This method is called after the request has been processed and the view has been rendered.
+     *
      * @param request
      * @param response
      * @param handler
