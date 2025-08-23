@@ -17,16 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class LoggerInterceptor implements HandlerInterceptor {
 
 
-    /**
-     * The start time of the request processing.
-     *
-     */
-    private int startTime;
-    /**
-     * The end time of the request processing.
-     *
-     */
-    private int endTime;
+    // No instance variables needed for timing; use request attributes instead.
 
 
     /**
