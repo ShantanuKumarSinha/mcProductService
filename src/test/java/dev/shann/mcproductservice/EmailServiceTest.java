@@ -1,8 +1,8 @@
 package dev.shann.mcproductservice;
 
+import dev.shann.mcproductservice.adapters.mail.impl.EmailServiceAdapter;
 import dev.shann.mcproductservice.config.TestConfig;
 import dev.shann.mcproductservice.model.Mail;
-import dev.shann.mcproductservice.adapters.mail.impl.EmailServiceAdapter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -45,7 +46,7 @@ class EmailServiceTest {
         doThrow(new MailSendException("Test message")).when(javaMailSender).send(any(SimpleMailMessage.class));
         var response = emailServiceAdapter.sendSimpleMail(mailDTO);
         assertThat(response).isNotNull().isEqualTo("Error while Sending Mail");
-//          assertThrows(MailSendException.class, () ->emailService.sendSimpleMail(mailDTO));
+        //assertThrows(MailSendException.class, () -> emailServiceAdapter.sendSimpleMail(mailDTO));
     }
 
 

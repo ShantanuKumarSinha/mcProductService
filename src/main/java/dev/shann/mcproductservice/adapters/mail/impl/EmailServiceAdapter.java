@@ -59,7 +59,7 @@ public class EmailServiceAdapter implements MailAdapter {
             return "Mail Sent Successfully...";
         }
         catch (MailException e) {
-            log.error("Error while Sending Mail  : {}",e);
+            log.error("Error while Sending Mail: {}",e);
             return "Error while Sending Mail";
         }
     }

@@ -14,12 +14,12 @@ public class TestConfig {
     @Autowired
     private Environment environment;
 
-    @Bean
-    public JavaMailSender mailSender() {
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost(environment.getProperty("spring.mail.host", "localhost"));
-        mailSender.setPort(environment.getProperty("spring.mail.port", Integer.class, 1025));
-        return mailSender;
-    }
+//    @Bean
+//    public JavaMailSender mailSender() {
+//        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+//        mailSender.setHost(environment.getProperty("spring.mail.host", "localhost"));
+//        mailSender.setPort(environment.getProperty("spring.mail.port", Integer.class, 1025));
+//        return mailSender;
+//    }
 
 }
