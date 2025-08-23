@@ -479,11 +479,6 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-/log/
-!/log/product-service.log
-!/log/
-/.idea/dataSources.xml
-/.idea/jpa.xml
-/.idea/mcProductService.iml
-/.idea/modules.xml
-!/log/**
+.idea/
+.log/
+*.gz
