@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import static dev.shann.mcproductservice.utils.ApplicationConstants.AUTHENTICATE;
 
-@FeignClient(name="user-service", url ="${user.service.client.user.name-alt}")
+@FeignClient(name = "user-service", url = "${user.service.client.user.name-alt}")
 public interface UserServiceClient {
 
     @PostMapping(value = AUTHENTICATE)

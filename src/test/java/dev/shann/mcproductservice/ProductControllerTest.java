@@ -3,10 +3,10 @@ package dev.shann.mcproductservice;
 import dev.shann.mcproductservice.controller.ProductController;
 import dev.shann.mcproductservice.dto.CreateOrUpdateProductDetailsRequestDto;
 import dev.shann.mcproductservice.dto.GetProductDetailsRequestDto;
-import dev.shann.mcproductservice.model.Product;
-import dev.shann.mcproductservice.service.ProductService;
 import dev.shann.mcproductservice.exceptions.ProductNotFoundException;
 import dev.shann.mcproductservice.exceptions.UnAuthorizedAccessException;
+import dev.shann.mcproductservice.model.Product;
+import dev.shann.mcproductservice.service.ProductService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -91,7 +91,7 @@ class ProductControllerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         var actualResponseBondy = response.getBody();
         assertThat(actualResponseBondy).isNotNull().extracting(Product::getProductId, Product::getProductName, Product::getBrand, Product::getQuantity, Product::getPrice)
-                .contains(1L, expectedResponse.getProductName(), expectedResponse.getBrand(), expectedResponse.getQuantity(),expectedResponse.getPrice());
+                .contains(1L, expectedResponse.getProductName(), expectedResponse.getBrand(), expectedResponse.getQuantity(), expectedResponse.getPrice());
 
     }
 

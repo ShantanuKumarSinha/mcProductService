@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.shann.mcproductservice.dto.UserAuthenticationDTO;
 import dev.shann.mcproductservice.service.UserService;
 import dev.shann.mcproductservice.utils.UserServiceClient;
+import jakarta.annotation.PostConstruct;
 import jakarta.ws.rs.HttpMethod;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,8 +16,14 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientException;
 import reactor.core.publisher.Mono;
 
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 import static dev.shann.mcproductservice.utils.ApplicationConstants.AUTHENTICATE;
@@ -36,7 +43,15 @@ public class UserServiceImpl implements UserService {
 
     UserServiceClient userServiceClient;
 
-    public ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
+
+    /**
+     * User service URL from application properties
+     */
+    @Value("${user.service.client.user.name-alt}")
+    private String userServiceURL;
+
+    private String userAuthenticate;
 
     public UserServiceImpl(RestTemplate restTemplate, WebClient webClient, UserServiceClient userServiceClient, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
@@ -45,42 +60,42 @@ public class UserServiceImpl implements UserService {
         this.objectMapper = objectMapper;
     }
 
-
-    /**
-     * User service URL from application properties
-     */
-    @Value("${user.service.client.user.name-alt}")
-    private static String USER_SERVICE_URL;
-    private static final String USER_AUTHENTICATE = USER_SERVICE_URL+AUTHENTICATE;
+    @PostConstruct
+    private void initUserAuthenticate() {
+        userAuthenticate = userServiceURL + AUTHENTICATE;
+    }
 
     /**
      * Verify user using WebClient
+     *
      * @param email
      * @param password
      * @return Boolean Type
      */
-    @Override public boolean  userAuthentication(String email, String password) {
-        UserAuthenticationDTO userAuthenticationDTO  = new UserAuthenticationDTO(email, password);
-        try{
+    @Override
+    public boolean userAuthentication(String email, String password) {
+        UserAuthenticationDTO userAuthenticationDTO = new UserAuthenticationDTO(email, password);
+        try {
             return Boolean.TRUE.equals(webClient
                     .post()
                     .uri(AUTHENTICATE)
                     .body(Mono.just(userAuthenticationDTO), UserAuthenticationDTO.class)
                     .retrieve().bodyToMono(Boolean.class).block());
-        } catch(WebClientException webClientException){
-            log.error("Exception : {}",webClientException.getMessage());
+        } catch (WebClientException webClientException) {
+            log.error("Exception : {}", webClientException.getMessage());
         }
-
-        return  false;
+        return false;
     }
 
     /**
      * Calls UserAuthentication RestTemplate
+     *
      * @param email
      * @param password
      * @return Boolean type
      */
-    @Override public boolean userAuthenticationViaRestTemplate(String email, String password) {
+    @Override
+    public boolean userAuthenticationViaRestTemplate(String email, String password) {
         UserAuthenticationDTO userAuthenticationDTO = new UserAuthenticationDTO(email, password);
         try {
             return Boolean.TRUE.equals(restTemplate.postForObject(AUTHENTICATE, userAuthenticationDTO, Boolean.class));
@@ -92,36 +107,40 @@ public class UserServiceImpl implements UserService {
 
     /**
      * Calls UserAuthentiactionFeignClient
+     *
      * @param email
      * @param password
      * @return Boolean type
      */
-    @Override public boolean userAuthenticationViaFeignClient(String email, String password){
-    return userServiceClient.authenticateUser(new UserAuthenticationDTO(email, password));
+    @Override
+    public boolean userAuthenticationViaFeignClient(String email, String password) {
+        return userServiceClient.authenticateUser(new UserAuthenticationDTO(email, password));
     }
 
     /**
      * Calls UserAuthentication via HttpConnection
+     *
      * @param email
      * @param password
      * @return Boolean type
      */
-    @Override public boolean userAuthenticationViaHttpConnection(String email, String password) {
+    @Override
+    public boolean userAuthenticationViaHttpConnection(String email, String password) {
 
         try {
-            URL url = new URI(USER_AUTHENTICATE).toURL();
+            URL url = new URI(userAuthenticate).toURL();
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod(HttpMethod.POST);
             connection.setRequestProperty("Content-Type",
                     MediaType.APPLICATION_JSON_VALUE);
-            connection.setRequestProperty("Accept",MediaType.APPLICATION_JSON_VALUE);
+            connection.setRequestProperty("Accept", MediaType.APPLICATION_JSON_VALUE);
             connection.setDoOutput(true);
             connection.setDoInput(true);
             OutputStream os = connection.getOutputStream();
-                byte[] input = getParam(email, password).getBytes(StandardCharsets.UTF_8);
-                os.write(input, 0, input.length);
-                os.flush();
-                os.close();
+            byte[] input = getParam(email, password).getBytes(StandardCharsets.UTF_8);
+            os.write(input, 0, input.length);
+            os.flush();
+            os.close();
 
             BufferedReader br = new BufferedReader(
                     new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
@@ -137,8 +156,8 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-        private String getParam(String email, String password) throws JsonProcessingException {
+    private String getParam(String email, String password) throws JsonProcessingException {
         //jsonInputString = "{\"email\":\"shan.raj93@gmail.com\",\"password\":\"test@123\"}";
-        return objectMapper.writeValueAsString(new UserAuthenticationDTO(email,password));
+        return objectMapper.writeValueAsString(new UserAuthenticationDTO(email, password));
     }
 }

@@ -1,7 +1,7 @@
 package dev.shann.mcproductservice.adapters.mail.impl;
 
-import dev.shann.mcproductservice.model.Mail;
 import dev.shann.mcproductservice.adapters.mail.MailAdapter;
+import dev.shann.mcproductservice.model.Mail;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +13,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
 import java.io.File;
+
 @Slf4j
 /**
  * EmailServiceAdapter is an implementation of the MailAdapter interface
@@ -24,17 +25,18 @@ import java.io.File;
  */
 public class EmailServiceAdapter implements MailAdapter {
 
-    private  JavaMailSender javaMailSender;
+    private JavaMailSender javaMailSender;
 
-    @Value("${spring.mail.username}") private String sender;
+    @Value("${spring.mail.username}")
+    private String sender;
 
     /**
      * Constructor to initialize the JavaMailSender.
      *
      * @param javaMailSender JavaMailSender instance
      */
-    public EmailServiceAdapter(JavaMailSender javaMailSender){
-    this.javaMailSender = javaMailSender;
+    public EmailServiceAdapter(JavaMailSender javaMailSender) {
+        this.javaMailSender = javaMailSender;
     }
 
     /**
@@ -45,21 +47,20 @@ public class EmailServiceAdapter implements MailAdapter {
      */
     @Override
     public String sendSimpleMail(Mail mail) {
-        try{
+        try {
             SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
             simpleMailMessage.setFrom(sender);
             simpleMailMessage.setTo(mail.getRecipient());
             simpleMailMessage.setText(mail.getMsgBody());
             simpleMailMessage.setSubject(mail.getSubject());
-            log.info("Sending Mail : {}",simpleMailMessage);
+            log.info("Sending Mail : {}", simpleMailMessage);
 
             // Sending the mail
             javaMailSender.send(simpleMailMessage);
             log.info("Mail Sent Successfully...");
             return "Mail Sent Successfully...";
-        }
-        catch (MailException e) {
-            log.error("Error while Sending Mail  : {}",e);
+        } catch (MailException e) {
+            log.error("Error while Sending Mail: {}", e);
             return "Error while Sending Mail";
         }
     }

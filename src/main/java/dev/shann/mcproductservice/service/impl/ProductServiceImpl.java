@@ -1,10 +1,10 @@
 package dev.shann.mcproductservice.service.impl;
 
+import dev.shann.mcproductservice.adapters.mail.MailAdapter;
 import dev.shann.mcproductservice.entity.ProductEntity;
 import dev.shann.mcproductservice.exceptions.ProductNotFoundException;
 import dev.shann.mcproductservice.exceptions.UnAuthorizedAccessException;
 import dev.shann.mcproductservice.model.Mail;
-import dev.shann.mcproductservice.adapters.mail.MailAdapter;
 import dev.shann.mcproductservice.model.Product;
 import dev.shann.mcproductservice.repository.ProductRepository;
 import dev.shann.mcproductservice.service.ProductService;

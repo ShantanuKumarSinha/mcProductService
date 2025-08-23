@@ -11,14 +11,16 @@ import dev.shann.mcproductservice.model.Mail;
  */
 public interface MailAdapter {
 
-    /** To send a simple email
+    /**
+     * To send a simple email
      *
      * @param mail
      * @return
      */
     String sendSimpleMail(Mail mail);
 
-    /** To send an email with an attachment
+    /**
+     * To send an email with an attachment
      *
      * @param mail
      * @return
