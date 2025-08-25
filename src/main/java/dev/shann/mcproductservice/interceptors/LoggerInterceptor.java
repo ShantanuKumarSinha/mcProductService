@@ -36,7 +36,8 @@ public class LoggerInterceptor implements HandlerInterceptor {
         // Log request details here
         log.info("Request URL: {}", request.getRequestURL());
         log.info("HTTP Method: {}", request.getMethod());
-        startTime = (int) System.currentTimeMillis();
+        var startTime = System.currentTimeMillis();
+        request.setAttribute("startTime", startTime);
         return true; // Continue with the request processing
     }
 
@@ -59,7 +60,8 @@ public class LoggerInterceptor implements HandlerInterceptor {
         }
         // Log response details here
         log.info("Response Status: {}", response.getStatus());
-        endTime = (int) System.currentTimeMillis();
+        var endTime = System.currentTimeMillis();
+        request.setAttribute("endTime", endTime);
     }
 
     /**
@@ -77,8 +79,7 @@ public class LoggerInterceptor implements HandlerInterceptor {
         if (ex != null) {
             log.error("Exception occurred: {}", ex.getMessage());
         }
-        log.info("Request Processing Time: {} ms", (endTime - startTime));
+        log.info("Request Processing Time: {} ms", ((Long) request.getAttribute("endTime") - (Long) request.getAttribute("start_time")));
     }
-
 
 }
