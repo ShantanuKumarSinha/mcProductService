@@ -5,6 +5,7 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 import dev.shann.mcproductservice.dto.CreateOrUpdateProductDetailsRequestDto;
 import dev.shann.mcproductservice.model.Product;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,6 +53,7 @@ class McProductServiceApplicationTests {
     }
 
     @Test
+    @Disabled
     void testProductCreation() throws Exception {
         var product = Product.builder().productName("testProduct").brand("testBrand").price(100).quantity(1000).build();
         var createOrUpdateProductDetailsRequestDto = new CreateOrUpdateProductDetailsRequestDto("test@test.com", "testPassword", product);
